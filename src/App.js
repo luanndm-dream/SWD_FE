@@ -1,5 +1,5 @@
 import Store from "./components/Header/store";
-import ListSize from "./components/NavBar/ListSize";
+
 import SizeBar from "./components/SizeBar/SizeBar";
 
 

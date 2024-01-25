@@ -25,6 +25,10 @@
 .leftNav h3 {
     margin: 0;
     margin-left: 0.5rem;
+    font-family: sans-serif;
+}
+.rightNav{
+    font-family:Arial black Gadget;
 }
 
 .centerContent {

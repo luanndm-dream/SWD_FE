@@ -9,6 +9,9 @@ function Store() {
 
         <h3>BusDelivery</h3>
       </div>
+         <div className='rightNav'>
+            <h4>TP Hồ Chí Minh</h4>
+         </div>
         </nav>
     )
 }
