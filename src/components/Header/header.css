@@ -1,0 +1,38 @@
+.Nav {
+    width: 100%;
+    height: 55px;
+    background-color: #4BA2B6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.3rem;
+    /* box-sizing: border-box; */
+    margin-top: -0.5rem;
+    margin-left: -0.5rem; 
+    margin-right: 0; 
+    padding-right: 0.7rem;
+}
+
+
+
+.leftNav {
+    display: flex;
+    align-items: center;
+    margin-top: -0.7rem;
+    margin: 0.5rem;
+}
+
+.leftNav h3 {
+    margin: 0;
+    margin-left: 0.5rem;
+    font-family: sans-serif;
+}
+.rightNav{
+    font-family:Arial black Gadget;
+}
+
+.centerContent {
+    flex-grow: 1;
+    text-align: center;
+    color: white;
+}
