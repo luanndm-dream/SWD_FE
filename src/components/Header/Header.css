@@ -1,0 +1,57 @@
+.header_container{
+    height: 55px;
+    width: 100%;
+    background-color: #4BA2B6;
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+.left_item,  .right_item {
+    margin: 0px 15px;
+    display: flex;
+    align-items: center;
+}
+.left_item > h1{
+   font-size: 18px;
+   color: #FFFFFF;
+   margin-left: 4px;
+}
+.logo_container{
+    width: 46px;
+    height: 46px;
+    border-radius: 8px;
+    background-color: #6bcee4;
+    border: 1px solid #F5F5F5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.right_item{
+    justify-content: space-around;
+}
+.right_item > div> a{
+    height: 33px;
+    border-radius: 5px;
+    margin: 0px 15px;
+    border: 1px solid white;
+   
+}
+.right_item > .location_btn > a{
+    width: 163px;
+    padding: 5px 10px;
+    font-size: 14px;
+    background-color: white;
+    color: black;
+}
+.right_item > .login_btn > a{
+    width: 106px;
+    padding: 5px 10px;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+.right_item > .login_btn > a:hover{
+    background-color: #2196F3;
+}

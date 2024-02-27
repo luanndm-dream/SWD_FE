@@ -4,7 +4,7 @@ import "./login.css"
 import busImage from './../../assets/logos/bus.png';
 import axios from "./../../api/LoginApi";
 
-const LOGIN_URL = '/auth'
+const LOGIN_URL = '/api/v1/Authentication/LoginAsync'
 const Login = () => {
     const { setAuth } = useContext(AuthContext);
 
@@ -26,7 +26,6 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         try {
             const respone = await axios.post(LOGIN_URL, JSON.stringify({ email, pwd }),
                 {
