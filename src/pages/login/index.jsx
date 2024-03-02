@@ -3,6 +3,7 @@ import "./login.css"
 import busImage from "@/assets/logos/bus.png"
 import AuthContext from "@/context/AuthProvider"
 import axios from "axios"
+import { loginUser } from "../../lib/api/user-api"
 
 const LOGIN_URL = "/api/v1/Authentication/LoginAsync"
 
@@ -28,31 +29,31 @@ const LoginPage = () => {
   const handleSubmit = async e => {
     e.preventDefault()
     try {
-      const respone = await axios.post(
-        LOGIN_URL,
-        JSON.stringify({ email, pwd }),
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true
+      loginUser(email, pwd)
+      .then((res) => {
+        if(res.error){
+          console.log(res.error)
+          if (!res.error) {
+            setErrMsg("No Sever Respone")
+          } else if (res.error.statusCode === 400) {
+            setErrMsg(res.error?.message || "Invalid Email or Password")
+          } else if (res.error.statusCode === 401) {
+            setErrMsg("Unauthorize")
+          } else {
+            setErrMsg("Login Failed")
+          }
+        }else{
+          console.log(JSON.stringify(respone?.data))
+          const accessToken = respone?.data.accessToken
+          const roles = respone?.data.roles
+          setAuth({ email, pwd, roles, accessToken })
+          setEmail("")
+          setPwd("")
+          setSuccess(true)
+          // role direction
         }
-      )
-      console.log(JSON.stringify(respone?.data))
-      const accessToken = respone?.data.accessToken
-      const roles = respone?.data.roles
-      setAuth({ email, pwd, roles, accessToken })
-      setEmail("")
-      setPwd("")
-      setSuccess(true)
+      })
     } catch (err) {
-      if (!err?.respone) {
-        setErrMsg("No Sever Respone")
-      } else if (err.respone?.status === 400) {
-        setErrMsg("Missing Email or Password")
-      } else if (err.respone?.status === 401) {
-        setErrMsg("Unauthorize")
-      } else {
-        setErrMsg("Login Failed")
-      }
       errRef?.current?.focus()
     }
   }
