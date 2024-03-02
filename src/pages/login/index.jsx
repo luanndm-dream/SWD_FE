@@ -36,7 +36,7 @@ const LoginPage = () => {
           if (!res.error) {
             setErrMsg("No Sever Respone")
           } else if (res.error.statusCode === 400) {
-            setErrMsg(res.error?.message || "Invalid Email or Password")
+            setErrMsg(res.error?.message || "Invalid Email or Password!")
           } else if (res.error.statusCode === 401) {
             setErrMsg("Unauthorize")
           } else {
