@@ -12,6 +12,9 @@ import OrderManagementPage from "./pages/dashboard/order/page.jsx"
 import ErrorPage from "./pages/error/ErrorPage.jsx"
 import LoginPage from "@/pages/login"
 import BusDetaisPage from "./pages/dashboard/bus/bus-details/page.jsx"
+import OrderDetails from "./pages/dashboard/order/components/OrderDetails.jsx"
+import NotProccessList from './pages/dashboard/order/components/NotProccessList.jsx';
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -37,7 +40,17 @@ const router = createBrowserRouter([
       },
       {
         path: "/order",
-        element: <OrderManagementPage />
+        element: <OrderManagementPage />,
+        children: [
+          {
+            path: "/order",
+            element: <NotProccessList />,
+          },
+          {
+            path: "/order/:id",
+            element: <OrderDetails />,
+          },
+        ]
       }
     ]
   },
