@@ -14,6 +14,7 @@ import LoginPage from "@/pages/login"
 import BusDetaisPage from "./pages/dashboard/bus/bus-details/page.jsx"
 import OrderDetails from "./pages/dashboard/order/components/OrderDetails.jsx"
 import NotProccessList from './pages/dashboard/order/components/NotProccessList.jsx';
+import OfficeDetails from "./pages/dashboard/office/office-details/page.jsx"
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: "/office",
         element: <OfficeManagementPage />
+      },
+      {
+        path: "/office/:id",
+        element: <OfficeDetails />
       },
       {
         path: "/bus",
