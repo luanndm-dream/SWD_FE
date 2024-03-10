@@ -4,7 +4,7 @@ import { Provider } from "react-redux"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import "./index.css"
 import HomePage from "./pages/home/index.jsx"
-import { store } from "./store/store.ts"
+import { store } from "./store/store.js"
 import DashboardLayout from "./components/layout/DashboardLayout.jsx"
 import OfficeManagementPage from "./pages/dashboard/office/page.jsx"
 import BusManagementPage from "./pages/dashboard/bus/page.jsx"
@@ -15,7 +15,7 @@ import BusDetaisPage from "./pages/dashboard/bus/bus-details/page.jsx"
 import OrderDetails from "./pages/dashboard/order/components/OrderDetails.jsx"
 import NotProccessList from './pages/dashboard/order/components/NotProccessList.jsx';
 import OfficeDetails from "./pages/dashboard/office/office-details/page.jsx"
-
+import 'react-toastify/dist/ReactToastify.css';
 const router = createBrowserRouter([
   {
     path: "/",

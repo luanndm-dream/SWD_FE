@@ -4,6 +4,7 @@ import busImage from "@/assets/logos/bus.png"
 import AuthContext from "@/context/AuthProvider"
 import axios from "axios"
 import { loginUser } from "../../lib/api/user-api"
+import { UserAuthForm } from "./components/AuthForm"
 
 const LOGIN_URL = "/api/v1/Authentication/LoginAsync"
 
@@ -78,7 +79,7 @@ const LoginPage = () => {
             {errMsg}
           </p>
           <div className="login-form">
-            <span className="logo-name">
+            <span className="logo-name flex gap-2 items-center font-bold">
               <img
                 style={{ width: "37px", height: "37px" }}
                 src={busImage}
@@ -86,31 +87,11 @@ const LoginPage = () => {
               />
               <p>BusDelivery</p>
             </span>
-            <div className="login-header">
-              <h1>Login</h1>
+            <div className="login-header my-4">
+              <h1 className="text-2xl font-bold">Login</h1>
               <p>Welcome to BusDelivery</p>
             </div>
-            <form onSubmit={handleSubmit}>
-              <label htmlFor="email">Email:</label>
-              <input
-                type="text"
-                id="email"
-                required
-                ref={userRef}
-                onChange={e => setEmail(e.target.value)}
-                value={email}
-              />
-
-              <label htmlFor="pwd">Password:</label>
-              <input
-                type="password"
-                id="pwd"
-                required
-                onChange={e => setPwd(e.target.value)}
-                value={pwd}
-              />
-              <button>Signin</button>
-            </form>
+            <UserAuthForm />
           </div>
         </section>
       )}
