@@ -6,6 +6,7 @@ import { OFFICES } from "./components/mock-data"
 import OfficeCard from "./components/OfficeCard"
 import { Search } from "lucide-react"
 import { getOffices } from "../../../lib/api/office-api"
+import { toast } from "react-toastify"
 
 export default function OfficeManagementPage() {
 
@@ -36,6 +37,7 @@ export default function OfficeManagementPage() {
       .then((res) => {
         if(res.error){
           console.log(res.error)
+          toast.error("Lỗi lấy dữ liệu")
         }else{
           console.log(res.data)
           setOffices(res.data?.data?.items || [])
