@@ -2,6 +2,7 @@ import checklist from '@/assets/icon/checklist (1).svg';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Filter from './components/Filter.jsx';
 import { Outlet } from 'react-router-dom';
+import NotProccessList from './components/NotProccessList.jsx';
 
 export default function OrderManagementPage() {
   return (
@@ -28,9 +29,6 @@ export default function OrderManagementPage() {
           <Outlet />
         </TabsContent>
       </Tabs>
-
-
-
     </div>
   )
 }
