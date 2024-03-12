@@ -1,18 +1,17 @@
-import { createSlice } from "@reduxjs/toolkit"
-import { orderData } from "@/pages/dashboard/order/data/orderData"
+import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
-  orderList: orderData
-}
+  orderList: [],
+};
 
 const orderListSlice = createSlice({
   name: "orderList",
   initialState,
   reducers: {
     updateOrderList: (state, action) => {
-      state.orderList = action.payload
-    }
-  }
-})
+      state.orderList = action.payload;
+    },
+  },
+});
 
-export const { updateOrderList } = orderListSlice.actions
-export default orderListSlice.reducer
+export const { updateOrderList } = orderListSlice.actions;
+export default orderListSlice.reducer;
