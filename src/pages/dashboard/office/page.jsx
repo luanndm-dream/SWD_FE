@@ -1,10 +1,11 @@
 import FindOffice from "@/assets/icon/find-office.svg"
 import OfficeIcon from "@/assets/icon/list.svg"
 import CreateOffice from "@/assets/icon/create-office.svg"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { OFFICES } from "./components/mock-data"
 import OfficeCard from "./components/OfficeCard"
 import { Search } from "lucide-react"
+import { getOffices } from "../../../lib/api/office-api"
 
 export default function OfficeManagementPage() {
 
@@ -23,6 +24,34 @@ export default function OfficeManagementPage() {
       </div>
     }
   ])
+
+  const [offices, setOffices] = useState([])
+  const [searchOffices, setSearchOffices] = useState([])
+  const [searchParams, setSearchParams] = useState("")
+
+  useEffect(() => {
+    const init = async () => {
+
+      getOffices()
+      .then((res) => {
+        if(res.error){
+          console.log(res.error)
+        }else{
+          console.log(res.data)
+          setOffices(res.data?.data?.items || [])
+        }
+      })
+    }
+    init()
+  }, [])
+
+  useEffect(() => {
+    console.log("1")
+    setSearchOffices(offices.filter(office => office.name.toLowerCase().includes(searchParams.toLowerCase())))
+  }, [searchParams, offices])
+
+  
+
   
   return (
     <div className="w-full">
@@ -59,7 +88,7 @@ export default function OfficeManagementPage() {
       <div className="p-2">{tabs[0].isActive ? 
         <div className="h-[80vh] overflow-y-scroll space-y-4">
           {
-            OFFICES.map((office, index) => (
+            offices.map((office, index) => (
               <OfficeCard key={index} office={office}/>
             ))
           }
@@ -74,15 +103,31 @@ export default function OfficeManagementPage() {
                     type="text"
                     placeholder="Nhập tên văn phòng"
                     className="w-full p-4 rounded-xl border-2 border-gray-300 pl-16"
+                    values={
+                      searchParams
+                    }
+                    onChange={
+                      (e) => setSearchParams(e.target.value)
+                    }
                   />
-                  <Search className="absolute left-6 top-5 text-gray-400" />
+                  <Search className="absolute left-6 top-5 text-gray-400" 
+                  />
                 </div>
                 <div className="py-2 px-4 bg-slate-200 rounded-md mt-4">
-                  Có 10 địa điểm/tên trùng với tìm kiếm
+                  Có {
+                    " "
+                  }
+                  {
+                    searchOffices?.length
+                  }
+                  {
+                    " "
+                  }
+                   địa điểm/tên trùng với tìm kiếm
                 </div>
               </div>
               {
-                OFFICES.map((office, index) => (
+                searchOffices.map((office, index) => (
                   <OfficeCard key={index} office={office}/>
                 ))
               }

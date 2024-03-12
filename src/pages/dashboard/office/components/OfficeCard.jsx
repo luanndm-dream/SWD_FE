@@ -11,6 +11,15 @@ import { formatPrice } from '../../../../lib/formatPrice'
 export default function OfficeCard({
     office
 }) {
+    // id: 4,
+  // name: 'BusDelivery(Trần Hưng Đạo)',
+  // address: '567A Đ. Trần Hưng Đạo, Cầu Kho, Quận 1, Thành phố Hồ Chí Minh',
+  // lat: '10.756916906074192',
+  // lng: '106.68589420445201',
+  // contact: '0908055555',
+  // image: 
+  //   'https://busdeliveryimage.blob.core.windows.net/busdelivery/offices/BusDelivery%28Tr%E1%BA%A7n%20H%C6%B0ng%20%C4%90%E1%BA%A1o%29-1709710224',
+  // isActive: true
   return (
     <div className='rounded-xl bg-slate-200 p-4 px-6 flex items-center gap-4'>
         <div>
@@ -20,7 +29,7 @@ export default function OfficeCard({
             <span className='font-bold text-[#4BA2B6]'>{office?.name}</span>
             <span className='flex gap-2 items-center'>
                 <img src={CheckList} alt="icon" className="h-10 w-10" />
-                <span>Có {office?.orderQuantity} đơn hàng</span>
+                <span>Có {office?.orderQuantity || 0} đơn hàng</span>
             </span>
             <div className='self-stretch flex gap-2'>
                 <span className='flex gap-2 items-center'>

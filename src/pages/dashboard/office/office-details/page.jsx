@@ -1,8 +1,9 @@
 import List from "@/assets/icon/back.svg";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import OfficeCardDetails from '../components/OfficeCardDetails';
 import { OFFICES } from '../components/mock-data';
+import { getOffice } from "../../../../lib/api/office-api";
 
 export default function OfficeDetails() {
     const navigate = useNavigate();
@@ -11,7 +12,24 @@ export default function OfficeDetails() {
     function handleClick() {
         navigate("/office")
     }
-    const [office, setRoute] = useState(OFFICES.find(office => office.id == id))
+    const [office, setRoute] = useState({})
+
+    useEffect(() => {
+        const init = async () => {
+            getOffice(id)
+            .then((res) => {
+                if(res.error){
+                    console.log(res.error)
+                }else{
+                    console.log(res.data)
+                    setRoute(res.data?.data || {})
+                }
+            })
+        }
+        init()
+    }, [id])
+
+
 
   return (
     <div>
