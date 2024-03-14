@@ -50,6 +50,10 @@ export default function OfficeManagementPage() {
   useEffect(() => {
     console.log("1")
     setSearchOffices(offices.filter(office => office.name.toLowerCase().includes(searchParams.toLowerCase())))
+      setSearchOffices([])
+    } else{
+      setSearchOffices(offices.filter(office => office.name.toLowerCase().includes(searchParams.toLowerCase())))
+    }
   }, [searchParams, offices])
 
   

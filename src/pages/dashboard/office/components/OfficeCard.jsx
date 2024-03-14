@@ -11,6 +11,7 @@ import { formatPrice } from '../../../../lib/formatPrice'
 export default function OfficeCard({
     office
 }) {
+    console.log(office)
     // id: 4,
   // name: 'BusDelivery(Trần Hưng Đạo)',
   // address: '567A Đ. Trần Hưng Đạo, Cầu Kho, Quận 1, Thành phố Hồ Chí Minh',
@@ -20,10 +21,11 @@ export default function OfficeCard({
   // image: 
   //   'https://busdeliveryimage.blob.core.windows.net/busdelivery/offices/BusDelivery%28Tr%E1%BA%A7n%20H%C6%B0ng%20%C4%90%E1%BA%A1o%29-1709710224',
   // isActive: true
+  console.log(office?.image)
   return (
     <div className='rounded-xl bg-slate-200 p-4 px-6 flex items-center gap-4'>
         <div>
-            <img src={BusIcon} alt="icon" className="h-32 w-32" />
+            <img src={"data:image/jpeg;base64," + office?.image || BusIcon} alt="icon" className="h-32 w-32 rounded-sm" />
         </div>
         <div className='flex-1 flex flex-col ml-10 gap-4'>
             <span className='font-bold text-[#4BA2B6]'>{office?.name}</span>

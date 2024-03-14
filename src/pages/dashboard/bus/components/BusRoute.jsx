@@ -16,10 +16,11 @@ export default function BusRoute({
     // endPoint: 'Bến xe Chợ Lớn',
     // operateTime: '03:45 - 19:10',
     // stations: null
+    console.log(route)
     return (
     <div className='rounded-xl bg-slate-200 p-4 px-6 flex items-center gap-4'>
         <div>
-            <img src={BusIcon} alt="icon" className="h-32 w-32" />
+            <img src={"data:image/jpeg;base64" + route?.image || BusIcon} alt="icon" className="h-32 w-32" />
         </div>
         <div className='flex-1 flex flex-col self-start ml-10 gap-2'>
             <span className='font-bold text-[#4BA2B6]'>{route?.name}</span>

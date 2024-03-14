@@ -30,9 +30,11 @@ export default function BusManagementPage() {
     total
   )
 
+  console.log(pageIndex)
+
 
   useEffect(() => {
-    const init = () => {
+    console.log(pageIndex)
       getBusRoutes(
         pageIndex,
         pageSize,
@@ -42,17 +44,13 @@ export default function BusManagementPage() {
         if(res.error){
           console.log(res.error)
         }else{
-          console.log(res.data?.data?.items)
+          console.log(res.data?.data)
           setBusRoutes(res.data?.data?.items || [])
-          setTotal(res.data?.data?.total || 0)
+          setTotal(res.data?.data?.totalCount || 0)
         }
       })
-    }
-    init()
   }, [
     pageIndex,
-    pageSize,
-    searchParams,
   ])
 
   return (
@@ -87,7 +85,7 @@ export default function BusManagementPage() {
           </div>
         ))}
       </section>
-      <div className="p-2">{tabs[0].isActive ? 
+      <div className="p-2 h-[75vh] overflow-scroll">{tabs[0].isActive ? 
         <div className="h-[80vh] overflow-y-scroll space-y-4">
           {
             busRoutes.map((route, index) => (
@@ -125,7 +123,7 @@ export default function BusManagementPage() {
       {/* paging */}
       <div className="flex justify-center gap-4 items-center">
         <button
-          className="p-2 bg-slate-200 rounded-md"
+          className="p-2 bg-slate-200 rounded-md cursor-pointer"
           onClick={() => {
             setPageIndex(pageIndex - 1)
           }}
@@ -133,8 +131,11 @@ export default function BusManagementPage() {
         >
           Trang trước
         </button>
+        <div className="p-2 bg-slate-200 rounded-md">
+          Trang {pageIndex} / {Math.ceil(total / pageSize)}
+        </div>
         <button
-          className="p-2 bg-slate-200 rounded-md"
+          className="p-2 bg-slate-200 rounded-md cursor-pointer"
           onClick={() => {
             setPageIndex(pageIndex + 1)
           }}

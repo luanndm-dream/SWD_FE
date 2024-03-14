@@ -1,6 +1,6 @@
 import orderImage from "@/assets/images/orderImage.png"
 import { formatPrice } from "@/lib/formatPrice"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import { getPackageById } from "../../../../lib/api/package-api"
 import { getOffice } from "../../../../lib/api/office-api"
@@ -30,10 +30,28 @@ export default function OrderCard({ order }) {
     handleGetPackageById();
   }, [order])
 
+  const [isReady, setIsReady] = useState(false);
+  const blobUrl = useRef(null);
+
+  // useEffect(() => {
+  //   fetch(order?.image)
+  //     .then((response) => response.blob())
+  //     .then((blob) => {
+  //       blobUrl.current = URL.createObjectURL(blob);
+  //       setIsReady(true);
+  //     });
+
+  //   return () => {
+  //     URL.revokeObjectURL(blobUrl.current);
+  //   };
+  // }, []);
+
+
   return (
     <div className="grid grid-cols-5 bg-[#ededed] p-2 rounded-md">
       <div className="col-span-1 flex items-center justify-center bg-white rounded-md">
-        <img src={order.image ? order.image : orderImage} alt="" />
+        <img src={"data:image/jpeg;base64," + order?.image || orderImage} alt="" />
+        {/* {isReady && <img src={blobUrl.current} alt="blob" />} */}
       </div>
       <div className="col-span-3 px-3">
         <div className="font-semibold text-[#50a4b8] text-sm">

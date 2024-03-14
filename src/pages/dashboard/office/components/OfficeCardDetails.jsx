@@ -6,7 +6,7 @@ export default function OfficeCardDetails({
   return (
     <div className='rounded-xl bg-[#F2F8FB] p-4 px-20 flex items-center gap-4 pt-0 pb-52'>
         <div>
-            <img src={Office} alt="icon" className="h-52 w-52" />
+            <img src={"data:image/jpeg;base64," + office?.image || BusIcon} alt="icon" className="h-52 w-52 rounded-sm" />
         </div>
         <div className='flex-1 flex flex-col self-start ml-10 gap-10 pt-40'>
             <span className='font-bold text-[#4BA2B6] text-3xl'>{office?.name}</span>
