@@ -4,7 +4,7 @@ import { axiosClientMultiPart } from "./axiosClientMultiPart";
 export const getOffices = async () => {
   try {
     const { data } = await axiosClient.get(
-      "/api/v1/Office/GetOffices?status=true&pageIndex=1&pageSize=100"
+      "/api/v1/Office?status=true&pageIndex=1&pageSize=100"
     );
     return {
       error: null,
@@ -20,7 +20,7 @@ export const getOffices = async () => {
 
 export const getOffice = async (id) => {
   try {
-    const { data } = await axiosClient.get(`/api/v1/Office/GetOffices/${id}`);
+    const { data } = await axiosClient.get(`/api/v1/Office/${id}`);
     return {
       error: null,
       data: data,

@@ -16,8 +16,7 @@ export const getBusRoutes = async (
     searchParams = "",
 ) => {
     try{
-        const { data } = await axiosClient.get(`/api/v1/Route/GetAllRoute?
-        pageIndex=${pageIndex}&pageSize=${pageSize}
+        const { data } = await axiosClient.get(`/api/v1/Route?pageIndex=${pageIndex}&pageSize=${pageSize}
         ${
             searchParams ? `&searchParams=${searchParams}` : ""
         }
@@ -36,7 +35,7 @@ export const getBusRoutes = async (
 
 export const getBusRoute = async (id) => {
     try{
-        const { data } = await axiosClient.get(`/api/v1/Route/GetRouteById/${id}`);
+        const { data } = await axiosClient.get(`/api/v1/Route/${id}`);
         return {
             error: null,
             data: data
