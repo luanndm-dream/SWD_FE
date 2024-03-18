@@ -3,7 +3,7 @@ import OrderCard from "./OrderCard";
 import { useEffect, useState } from "react";
 import { getOrders } from "../../../../lib/api/order-api";
 
-export default function NotProccessList({ orders }) {
+export default function ProccessList({ orders }) {
 
     return (
         <div className="w-full mt-4">
@@ -16,7 +16,7 @@ export default function NotProccessList({ orders }) {
                         <div>
                             {
                                 orders.map((order, index) => (
-                                    <OrderCard key={index} order={order} type={"notProcess"} />
+                                    <OrderCard key={index} order={order} type={"process"} />
                                 ))
                             }
                         </div>

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 import { getPackageById } from "../../../../lib/api/package-api"
 import { getOffice } from "../../../../lib/api/office-api"
 
-export default function OrderCard({ order }) {
+export default function OrderCard({ order, type }) {
   const [packageInfo, setPackageInfo] = useState({});
   const [fromOffice, setFromOffice] = useState({});
   const [toOffice, setToOffice] = useState({});
@@ -48,13 +48,18 @@ export default function OrderCard({ order }) {
   // }, []);
 
   console.log(packageInfo);
+  console.log(type);
 
 
 
   return (
-    <div className="grid grid-cols-5 bg-[#ededed] p-2 rounded-md">
+    <div className={`grid grid-cols-5 bg-[#ededed] p-2 rounded-md my-2 ${type === "process" ? (
+      packageInfo?.status === 0 && "hidden"
+    ) : (
+      packageInfo?.status !== 0 && "hidden"
+    )}`}>
       <div className="col-span-1 flex items-center justify-center bg-white rounded-md">
-        <img src={packageInfo?.image || orderImage} alt="" />
+        <img src={`data:image/png;base64, ` + packageInfo?.image || orderImage} alt="" />
         {/* {isReady && <img src={blobUrl.current} alt="blob" />} */}
       </div>
       <div className="col-span-3 px-3">
@@ -89,15 +94,15 @@ export default function OrderCard({ order }) {
         </div>
       </div>
       <div className="col-span-1 grid grid-rows-3 gap-2">
-        <div className="row-span-1 flex items-center gap-2 text-base hover:cursor-pointer text-blue-500 hover:underline">
+        <div className="row-span-1 flex items-start gap-2 text-base hover:cursor-pointer text-blue-500 hover:underline">
           <Link to={`/order/${order?.id}`}>Xem chi tiết</Link>
         </div>
-        <div className="row-span-1 flex justify-center items-center text-base text-blue-500 border-2 border-blue-500 w-full rounded-full">
+        <div className="row-span-1 flex justify-center items-center text-base text-blue-500 border-2 border-blue-500 w-full rounded-full h-10">
           {packageInfo?.status === 1 && "Đã xử lý"}
           {packageInfo?.status === 0 && "Chưa xử lý"}
           {packageInfo?.status === -1 && "Đã hủy"}
         </div>
-        <div className="row-span-1 text-lg font-semibold text-red-500">
+        <div className="row-span-1 text-lg font-semibold text-red-500 flex items-end">
           Tổng tiền: {formatPrice(order?.price || 0)}
         </div>
       </div>

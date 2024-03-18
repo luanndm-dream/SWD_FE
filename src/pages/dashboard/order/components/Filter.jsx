@@ -3,7 +3,7 @@ import { DatePicker } from "./DatePicker"
 import { Input } from "@/components/ui/input"
 import research from "@/assets/icon/research.svg"
 
-export default function Filter() {
+export default function Filter({ setSearchToPage }) {
   const [fromDate, setFromDate] = useState(null)
   const [toDate, setToDate] = useState(null)
   const [search, setSearch] = useState("")
@@ -11,6 +11,7 @@ export default function Filter() {
   useEffect(() => {
     console.log(fromDate, toDate)
     console.log(search)
+    setSearchToPage(search)
   }, [fromDate, toDate, search])
   return (
     <div className="w-full bg-[#eaf4fa] px-28 py-3 rounded-md space-y-2">

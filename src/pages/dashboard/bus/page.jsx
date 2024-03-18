@@ -4,16 +4,21 @@ import { Search } from "lucide-react"
 import { useEffect, useState } from "react"
 import { getBusRoutes } from "../../../lib/api/bus-api"
 import BusRoute from "./components/BusRoute"
+import { set } from "date-fns"
 
 export default function BusManagementPage() {
   const [tabs, setTabs] = useState([
-    { name: "Danh sách", isActive: true, icon: <div>
-      <img src={OfficeIcon} alt="icon" className="h-14 w-14" />
-    </div> },
-    { name: "Tìm tuyến xe", isActive: false, icon:
-    <div>
-      <img src={BusLine} alt="icon" className="h-14 w-14" />
-    </div>}
+    {
+      name: "Danh sách", isActive: true, icon: <div>
+        <img src={OfficeIcon} alt="icon" className="h-14 w-14" />
+      </div>
+    },
+    {
+      name: "Tìm tuyến xe", isActive: false, icon:
+        <div>
+          <img src={BusLine} alt="icon" className="h-14 w-14" />
+        </div>
+    }
   ])
 
   const [busRoutes, setBusRoutes] = useState([])
@@ -29,28 +34,27 @@ export default function BusManagementPage() {
     searchParams,
     total
   )
-
-  console.log(pageIndex)
+  console.log(searchParams)
 
 
   useEffect(() => {
-    console.log(pageIndex)
-      getBusRoutes(
-        pageIndex,
-        pageSize,
-        searchParams,
-      )
+    getBusRoutes(
+      pageIndex,
+      pageSize,
+      searchParams,
+    )
       .then((res) => {
-        if(res.error){
+        if (res.error) {
           console.log(res.error)
-        }else{
+        } else {
           console.log(res.data?.data)
           setBusRoutes(res.data?.data?.items || [])
           setTotal(res.data?.data?.totalCount || 0)
+          setSearchResult(res.data?.data?.items || [])
         }
       })
   }, [
-    pageIndex,
+    pageIndex, pageSize, searchParams
   ])
 
   return (
@@ -59,11 +63,10 @@ export default function BusManagementPage() {
         {tabs.map((tab, index) => (
           <div
             key={index}
-            className={`flex-1 py-4 ${
-              tab.isActive
-                ? "border-b-2 border-[#4BA2B6]"
-                : "border-b-2 border-transparent"
-            }`}
+            className={`flex-1 py-4 ${tab.isActive
+              ? "border-b-2 border-[#4BA2B6]"
+              : "border-b-2 border-transparent"
+              }`}
           >
             <button
               className="w-full flex justify-center gap-4 items-center"
@@ -85,40 +88,40 @@ export default function BusManagementPage() {
           </div>
         ))}
       </section>
-      <div className="p-2 h-[75vh] overflow-scroll">{tabs[0].isActive ? 
+      <div className="p-2 h-[75vh] overflow-scroll">{tabs[0].isActive ?
         <div className="h-[80vh] overflow-y-scroll space-y-4">
           {
             busRoutes.map((route, index) => (
               <BusRoute key={index} route={route} />
             ))
           }
-        </div> 
-        : 
+        </div>
+        :
         <div className="h-[80vh] overflow-y-scroll space-y-4">
-           <div>
-                <div className="relative">
-                  <input
-                    type="text"
-                    placeholder="Nhập tên tuyến xe"
-                    className="w-full p-4 rounded-xl border-2 border-gray-300 pl-16"
-                    onChange={(e) => setSearchParams(e.target.value)}
-                    value={searchParams}
-                  />
-                  <Search className="absolute left-6 top-5 text-gray-400" />
-                </div>
-                <div className="py-2 px-4 bg-slate-200 rounded-md mt-4">
-                  Có {
-                    searchResult?.length
-                  + " "}  tên trùng với tìm kiếm
-                </div>
-              </div>
+          <div>
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Nhập tên tuyến xe"
+                className="w-full p-4 rounded-xl border-2 border-gray-300 pl-16"
+                onChange={(e) => setSearchParams(e.target.value)}
+                value={searchParams}
+              />
+              <Search className="absolute left-6 top-5 text-gray-400" />
+            </div>
+            <div className="py-2 px-4 bg-slate-200 rounded-md mt-4">
+              Có {
+                searchResult?.length
+                + " "}  tên trùng với tìm kiếm
+            </div>
+          </div>
           {
             searchResult?.map((route, index) => (
               <BusRoute key={index} route={route} />
             ))
           }
         </div>
-        }
+      }
       </div>
       {/* paging */}
       <div className="flex justify-center gap-4 items-center">
@@ -143,7 +146,7 @@ export default function BusManagementPage() {
         >
           Trang sau
         </button>
-        </div>
+      </div>
     </div>
   )
 }

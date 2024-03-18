@@ -52,16 +52,6 @@ const router = createBrowserRouter([
       {
         path: "/order",
         element: <OrderManagementPage />,
-        children: [
-          {
-            path: "/order",
-            element: <NotProccessList />,
-          },
-          {
-            path: "/order/:id",
-            element: <OrderDetails />,
-          },
-        ]
       },
       {
         path: "/staff",
