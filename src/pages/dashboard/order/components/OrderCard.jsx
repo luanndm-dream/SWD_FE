@@ -10,6 +10,7 @@ export default function OrderCard({ order }) {
   const [fromOffice, setFromOffice] = useState({});
   const [toOffice, setToOffice] = useState({});
 
+
   const handleGetOfficeById = async (officeId) => {
     const response = await getOffice(officeId);
     return response?.data?.data;
@@ -46,11 +47,14 @@ export default function OrderCard({ order }) {
   //   };
   // }, []);
 
+  console.log(packageInfo);
+
+
 
   return (
     <div className="grid grid-cols-5 bg-[#ededed] p-2 rounded-md">
       <div className="col-span-1 flex items-center justify-center bg-white rounded-md">
-        <img src={"data:image/jpeg;base64," + order?.image || orderImage} alt="" />
+        <img src={packageInfo?.image || orderImage} alt="" />
         {/* {isReady && <img src={blobUrl.current} alt="blob" />} */}
       </div>
       <div className="col-span-3 px-3">
@@ -89,7 +93,9 @@ export default function OrderCard({ order }) {
           <Link to={`/order/${order?.id}`}>Xem chi tiết</Link>
         </div>
         <div className="row-span-1 flex justify-center items-center text-base text-blue-500 border-2 border-blue-500 w-full rounded-full">
-          {order?.status}
+          {packageInfo?.status === 1 && "Đã xử lý"}
+          {packageInfo?.status === 0 && "Chưa xử lý"}
+          {packageInfo?.status === -1 && "Đã hủy"}
         </div>
         <div className="row-span-1 text-lg font-semibold text-red-500">
           Tổng tiền: {formatPrice(order?.price || 0)}

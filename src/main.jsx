@@ -17,6 +17,7 @@ import NotProccessList from './pages/dashboard/order/components/NotProccessList.
 import OfficeDetails from "./pages/dashboard/office/office-details/page.jsx"
 import 'react-toastify/dist/ReactToastify.css';
 import UpdateOffice from "./pages/dashboard/office/components/update-office.jsx"
+import StaffPage from "./pages/dashboard/staff/page.jsx"
 const router = createBrowserRouter([
   {
     path: "/",
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
             element: <OrderDetails />,
           },
         ]
+      },
+      {
+        path: "/staff",
+        element: <StaffPage />
       }
     ]
   },

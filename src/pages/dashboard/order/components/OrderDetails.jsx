@@ -205,7 +205,9 @@ export default function OrderDetails() {
             </div>
             <div className="absolute bottom-0 right-0 flex flex-col items-center justify-center gap-3">
               <div className="flex justify-center items-center text-base text-blue-500 border-2 border-blue-500 rounded-full px-4 py-2">
-                {order?.status}
+                {packageData?.status === 1 && "Đã xử lý"}
+                {packageData?.status === 0 && "Chưa xử lý"}
+                {packageData?.status === -1 && "Đã hủy"}
               </div>
               <div className="row-span-1 text-lg font-semibold text-red-500">
                 Tổng tiền: {formatPrice(order?.price || 0)}

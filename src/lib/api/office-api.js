@@ -1,11 +1,12 @@
 import { axiosClient, handleApiError } from "./axiosClient";
 import { axiosClientMultiPart } from "./axiosClientMultiPart";
 
-export const getOffices = async () => {
+export const getOffices = async (pageIndex, pageSize) => {
   try {
     const { data } = await axiosClient.get(
-      "/api/v1/Office?status=true&pageIndex=1&pageSize=100"
+      `/api/v1/Office?status=true&pageIndex=${pageIndex}&pageSize=${pageSize}`
     );
+    console.log(data);
     return {
       error: null,
       data: data,
@@ -36,7 +37,7 @@ export const getOffice = async (id) => {
 export const createOffice = async (sendData) => {
   try {
     const { data } = await axiosClientMultiPart.post(
-      `/api/v1/Office/CreateOffice`,
+      `/api/v1/Office`,
       sendData
     );
     return {

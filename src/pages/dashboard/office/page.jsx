@@ -37,11 +37,14 @@ export default function OfficeManagementPage() {
   const [searchOffices, setSearchOffices] = useState([])
   const [searchParams, setSearchParams] = useState("")
   const reRender = useSelector(state => state.reRender.reRender)
+  const [pageIndex, setPageIndex] = useState(1)
+  const [pageSize, setPageSize] = useState(10)
+  const [total, setTotal] = useState(0)
 
   useEffect(() => {
     const init = async () => {
 
-      getOffices()
+      getOffices(pageIndex, pageSize)
         .then((res) => {
           if (res.error) {
             console.log(res.error)
@@ -49,11 +52,12 @@ export default function OfficeManagementPage() {
           } else {
             console.log(res.data)
             setOffices(res.data?.data?.items || [])
+            setTotal(res.data?.data?.totalCount || 0)
           }
         })
     }
     init()
-  }, [reRender])
+  }, [reRender, pageIndex, pageSize])
 
   useEffect(() => {
     console.log("1")
@@ -109,7 +113,7 @@ export default function OfficeManagementPage() {
         : <div>
           {
             tabs[1].isActive ?
-              <div className="h-[80vh] overflow-y-scroll space-y-4">
+              <div className="h-[8  0vh] overflow-y-scroll space-y-4">
                 <div>
                   <div className="relative">
                     <input
@@ -153,6 +157,29 @@ export default function OfficeManagementPage() {
         </div>
 
       }
+      </div>
+      <div className="flex justify-center gap-4 items-center mt-2">
+        <button
+          className="p-2 bg-slate-200 rounded-md cursor-pointer"
+          onClick={() => {
+            setPageIndex(pageIndex - 1)
+          }}
+          disabled={pageIndex === 1}
+        >
+          Trang trước
+        </button>
+        <div className="p-2 bg-slate-200 rounded-md">
+          Trang {pageIndex} / {Math.ceil(total / pageSize)}
+        </div>
+        <button
+          className="p-2 bg-slate-200 rounded-md cursor-pointer"
+          onClick={() => {
+            setPageIndex(pageIndex + 1)
+          }}
+          disabled={pageIndex * pageSize >= total}
+        >
+          Trang sau
+        </button>
       </div>
     </div>
   )

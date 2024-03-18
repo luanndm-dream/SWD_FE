@@ -39,7 +39,7 @@ export default function OfficeCard({ office }) {
                 <div className="self-stretch flex gap-2">
                     <span className="flex gap-2 items-center">
                         <img src={Clock} alt="icon" className="h-10 w-10" />
-                        {office?.startTime} - {office?.endTime}
+                        {office?.operationTime}
                     </span>
                     <span className="flex gap-2 items-center flex-1 flex justify-center">
                         <img src={Money} alt="icon" className="h-10 w-10" />
