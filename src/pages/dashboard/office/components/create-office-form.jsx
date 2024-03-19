@@ -28,6 +28,7 @@ import { Switch } from "@/components/ui/switch"
 import { useState } from "react"
 import { createOffice } from "../../../../lib/api/office-api"
 import { toast } from "react-toastify"
+import { useNavigate } from "react-router-dom"
 
 const formSchema = z.object({
     officeName: z.string("Office name is required"),
@@ -53,6 +54,7 @@ export default function CreateOfficeForm() {
             isActive: true,
         },
     })
+    const navigate = useNavigate()
 
     const handleCreateOffice = async (values) => {
         const response = await createOffice(values)
@@ -61,6 +63,7 @@ export default function CreateOfficeForm() {
         }
         if (response.data?.isSuccess) {
             toast.success("Tạo văn phòng thành công")
+            navigate("/office")
         } else {
             toast.error("Lỗi tạo văn phòng")
         }

@@ -13,7 +13,6 @@ import ErrorPage from "./pages/error/ErrorPage.jsx"
 import LoginPage from "@/pages/login"
 import BusDetaisPage from "./pages/dashboard/bus/bus-details/page.jsx"
 import OrderDetails from "./pages/dashboard/order/components/OrderDetails.jsx"
-import NotProccessList from './pages/dashboard/order/components/NotProccessList.jsx';
 import OfficeDetails from "./pages/dashboard/office/office-details/page.jsx"
 import 'react-toastify/dist/ReactToastify.css';
 import UpdateOffice from "./pages/dashboard/office/components/update-office.jsx"
@@ -52,6 +51,10 @@ const router = createBrowserRouter([
       {
         path: "/order",
         element: <OrderManagementPage />,
+      },
+      {
+        path: "/order/:id",
+        element: <OrderDetails />,
       },
       {
         path: "/staff",

@@ -1,10 +1,10 @@
 import { axiosClient, handleApiError } from "./axiosClient";
 import { axiosClientMultiPart } from "./axiosClientMultiPart";
 
-export const getOffices = async (pageIndex, pageSize) => {
+export const getOffices = async (searchParams, pageIndex, pageSize) => {
   try {
     const { data } = await axiosClient.get(
-      `/api/v1/Office?status=true&pageIndex=${pageIndex}&pageSize=${pageSize}`
+      `/api/v1/Office?status=true&pageIndex=${pageIndex}&pageSize=${pageSize}${searchParams !== "" ? `&SearchTerm=${searchParams}` : ""}`
     );
     console.log(data);
     return {

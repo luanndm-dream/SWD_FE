@@ -73,6 +73,18 @@ export default function UpdateOffice() {
           form.setValue('address', res.data?.data?.address)
           form.setValue('phone', res.data?.data?.contact)
           form.setValue('isActive', res.data?.data?.isActive)
+
+          // convert base64 to binary
+          if (res.data?.data?.image) {
+            const binary = atob(res.data?.data?.image)
+            const array = []
+            for (let i = 0; i < binary.length; i++) {
+              array.push(binary.charCodeAt(i))
+            }
+            const blob = new Blob([new Uint8Array(array)], { type: "image/png" })
+            setFile(blob)
+          }
+
           const time = res.data?.data?.operationTime?.split(' - ')
           form.setValue('openTime', time[0])
           form.setValue('closeTime', time[1])
@@ -126,6 +138,8 @@ export default function UpdateOffice() {
       setImageError(null)
     }
   }
+
+  console.log(file)
 
   useEffect(() => {
     init()

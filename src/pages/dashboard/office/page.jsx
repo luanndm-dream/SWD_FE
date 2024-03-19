@@ -43,30 +43,36 @@ export default function OfficeManagementPage() {
 
   useEffect(() => {
     const init = async () => {
-
-      getOffices(pageIndex, pageSize)
+      getOffices(searchParams, pageIndex, pageSize)
         .then((res) => {
           if (res.error) {
             console.log(res.error)
             toast.error("Lỗi lấy dữ liệu")
           } else {
             console.log(res.data)
-            setOffices(res.data?.data?.items || [])
+            
             setTotal(res.data?.data?.totalCount || 0)
+            if (searchParams != "") {
+              console.log(searchParams)
+              setSearchOffices(res.data?.data?.items || [])
+            }else{
+              setOffices(res.data?.data?.items || [])
+              setSearchOffices([])
+            }
           }
         })
     }
     init()
-  }, [reRender, pageIndex, pageSize])
+  }, [reRender, pageIndex, pageSize, searchParams])
 
-  useEffect(() => {
-    console.log("1")
-    if (searchParams === "") {
-      setSearchOffices([])
-    } else {
-      setSearchOffices(offices.filter(office => office.name.toLowerCase().includes(searchParams.toLowerCase())))
-    }
-  }, [searchParams, offices])
+  // useEffect(() => {
+  //   console.log("1")
+  //   if (searchParams === "") {
+  //     setSearchOffices([])
+  //   } else {
+  //     setSearchOffices(offices.filter(office => office.name.toLowerCase().includes(searchParams.toLowerCase())))
+  //   }
+  // }, [searchParams, offices])
 
 
 
@@ -135,7 +141,7 @@ export default function OfficeManagementPage() {
                       " "
                     }
                     {
-                      searchOffices?.length
+                      searchParams == "" ? 0 : total
                     }
                     {
                       " "

@@ -3,7 +3,7 @@ import { DatePicker } from "./DatePicker"
 import { Input } from "@/components/ui/input"
 import research from "@/assets/icon/research.svg"
 
-export default function Filter({ setSearchToPage }) {
+export default function Filter({ setSearchToPage, setFromDateParent, setToDateParent}) {
   const [fromDate, setFromDate] = useState(null)
   const [toDate, setToDate] = useState(null)
   const [search, setSearch] = useState("")
@@ -12,6 +12,8 @@ export default function Filter({ setSearchToPage }) {
     console.log(fromDate, toDate)
     console.log(search)
     setSearchToPage(search)
+    setFromDateParent(fromDate)
+    setToDateParent(toDate)
   }, [fromDate, toDate, search])
   return (
     <div className="w-full bg-[#eaf4fa] px-28 py-3 rounded-md space-y-2">

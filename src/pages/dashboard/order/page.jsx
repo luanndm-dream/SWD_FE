@@ -6,6 +6,7 @@ import NotProccessList from './components/NotProccessList.jsx';
 import ProccessList from './components/ProcessList.jsx';
 import { useEffect, useState } from 'react';
 import { getOrders } from '../../../lib/api/order-api.js';
+import { getPackages } from '../../../lib/api/package-api.js';
 
 
 
@@ -23,16 +24,40 @@ export default function OrderManagementPage() {
     console.log(search)
   }, [search, fromDate, toDate])
 
-  const handleGetOrders = async () => {
-    const response = await getOrders(pageIndex, pageSize, search);
-    console.log(response);
-    setOrders(response?.data?.items);
-    setTotal(response?.data?.totalCount);
-    console.log(orders?.data?.totalCount);
+  const handleGetPackages = async () => {
+    // const response = await getOrders(pageIndex, pageSize, search);
+    // console.log(response);
+    // setOrders(response?.data?.items);
+    // setTotal(response?.data?.totalCount);
+    // console.log(orders?.data?.totalCount);
+
+    getPackages(pageIndex, pageSize, search, fromDate, toDate)
+    .then(res => {
+      if (res.error) {
+        console.log(res.error)
+      } else {
+        console.log(res.data?.items)
+        if(search != ""){
+          setOrders(res.data?.items.filter((item) => item?.id == search || item?.name?.includes(search)))
+        }else{
+          getPackages(pageIndex, pageSize, search, fromDate, toDate)
+          .then(res => {
+            if (res.error) {
+              console.log(res.error)
+            } else {
+              console.log(res.data?.items)
+              setOrders(res.data?.items)
+            }
+          })
+        }
+        setTotal(res.data?.totalCount)
+        console.log(res?.data?.items)
+      }
+    })
   }
   useEffect(() => {
-    handleGetOrders();
-  }, [pageIndex, pageSize, search])
+    handleGetPackages();
+  }, [pageIndex, pageSize, search, fromDate, toDate])
 
   return (
     <div className='w-full h-full'>
@@ -50,11 +75,11 @@ export default function OrderManagementPage() {
           <TabsTrigger value="processed" className='col-span-1 h-full'>Đã xử lý</TabsTrigger>
         </TabsList>
         <TabsContent value="notProcess">
-          <Filter setSearchToPage={setSearch} />
+          <Filter setSearchToPage={setSearch} setFromDateParent={setFromDate} setToDateParent={setFromDate}/>
           <NotProccessList orders={orders} />
         </TabsContent>
         <TabsContent value="processed">
-          <Filter setSearchToPage={setSearch} />
+          <Filter setSearchToPage={setSearch} setFromDateParent={setFromDate} setToDateParent={setFromDate}/>
           <ProccessList orders={orders} />
         </TabsContent>
       </Tabs>

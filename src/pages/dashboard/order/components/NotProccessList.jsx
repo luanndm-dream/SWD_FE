@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { getOrders } from "../../../../lib/api/order-api";
 
 export default function NotProccessList({ orders }) {
-
+    console.log(orders)
     return (
         <div className="w-full mt-4">
             <div className="p-2 space-y-4 h-[500px] overflow-y-scroll">

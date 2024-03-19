@@ -50,7 +50,12 @@ export default function BusManagementPage() {
           console.log(res.data?.data)
           setBusRoutes(res.data?.data?.items || [])
           setTotal(res.data?.data?.totalCount || 0)
-          setSearchResult(res.data?.data?.items || [])
+          if (searchParams != "") {
+            console.log(searchParams)
+            setSearchResult(res.data?.data?.items || [])
+          }else{
+            setSearchResult([])
+          }
         }
       })
   }, [
@@ -104,14 +109,17 @@ export default function BusManagementPage() {
                 type="text"
                 placeholder="Nhập tên tuyến xe"
                 className="w-full p-4 rounded-xl border-2 border-gray-300 pl-16"
-                onChange={(e) => setSearchParams(e.target.value)}
+                onChange={(e) => {
+                  setSearchParams(e.target.value)
+                  setPageIndex(1)
+                }}
                 value={searchParams}
               />
               <Search className="absolute left-6 top-5 text-gray-400" />
             </div>
             <div className="py-2 px-4 bg-slate-200 rounded-md mt-4">
               Có {
-                searchResult?.length
+                (searchParams == "" ? 0 : total)
                 + " "}  tên trùng với tìm kiếm
             </div>
           </div>

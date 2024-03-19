@@ -6,9 +6,24 @@ import { getPackageById } from "../../../../lib/api/package-api"
 import { getOffice } from "../../../../lib/api/office-api"
 
 export default function OrderCard({ order, type }) {
-  const [packageInfo, setPackageInfo] = useState({});
   const [fromOffice, setFromOffice] = useState({});
   const [toOffice, setToOffice] = useState({});
+
+  // {
+    //     id: 9,
+    //     busId: 2,
+    //     fromOfficeId: 4,
+    //     toOfficeId: 1,
+    //     stationId: 1,
+    //     quantity: 1,
+    //     totalWeight: 1,
+    //     totalPrice: 10000,
+    //     image: ' ... (length: 451360)',
+    //     note: ' ... (length: 4)',
+    //     status: -1,
+    //     createTime: ' ... (length: 10)',
+    //     report: null
+    //   },
 
 
   const handleGetOfficeById = async (officeId) => {
@@ -17,14 +32,14 @@ export default function OrderCard({ order, type }) {
   }
 
   const handleGetPackageById = async () => {
-    const response = await getPackageById(order?.packageId);
-    setPackageInfo(response?.data);
-    if (response?.data?.fromOfficeId && response?.data?.toOfficeId) {
-      const from = await handleGetOfficeById(response?.data?.fromOfficeId);
-      setFromOffice(from);
-      const to = await handleGetOfficeById(response?.data?.toOfficeId);
-      setToOffice(to);
-    }
+    // const response = await getPackageById(order?.id);
+    // setPackageInfo(response?.data);
+    // if (response?.data?.fromOfficeId && response?.data?.toOfficeId) {
+    const from = await handleGetOfficeById(order?.fromOfficeId);
+    setFromOffice(from);
+    const to = await handleGetOfficeById(order?.toOfficeId);
+    setToOffice(to);
+    // }
   }
 
   useEffect(() => {
@@ -47,19 +62,33 @@ export default function OrderCard({ order, type }) {
   //   };
   // }, []);
 
-  console.log(packageInfo);
   console.log(type);
 
 
+  // {
+    //     id: 9,
+    //     busId: 2,
+    //     fromOfficeId: 4,
+    //     toOfficeId: 1,
+    //     stationId: 1,
+    //     quantity: 1,
+    //     totalWeight: 1,
+    //     totalPrice: 10000,
+    //     image: ' ... (length: 451360)',
+    //     note: ' ... (length: 4)',
+    //     status: -1,
+    //     createTime: ' ... (length: 10)',
+    //     report: null
+    //   },
 
   return (
     <div className={`grid grid-cols-5 bg-[#ededed] p-2 rounded-md my-2 ${type === "process" ? (
-      packageInfo?.status === 0 && "hidden"
+      order?.status === 0 && "hidden"
     ) : (
-      packageInfo?.status !== 0 && "hidden"
+      order?.status !== 0 && "hidden"
     )}`}>
       <div className="col-span-1 flex items-center justify-center bg-white rounded-md">
-        <img src={`data:image/png;base64, ` + packageInfo?.image || orderImage} alt="" />
+        <img src={`data:image/png;base64, ` + order?.image || orderImage} alt="" />
         {/* {isReady && <img src={blobUrl.current} alt="blob" />} */}
       </div>
       <div className="col-span-3 px-3">
@@ -73,7 +102,7 @@ export default function OrderCard({ order, type }) {
           </div>
           <div className="font-semibold text-sm col-span-1 truncate">
             Khối lượng:{" "}
-            <span className="text-sm font-normal">{order?.weight} kg</span>
+            <span className="text-sm font-normal">{order?.totalWeight} kg</span>
           </div>
         </div>
         <div className="font-semibold text-sm">
@@ -98,12 +127,12 @@ export default function OrderCard({ order, type }) {
           <Link to={`/order/${order?.id}`}>Xem chi tiết</Link>
         </div>
         <div className="row-span-1 flex justify-center items-center text-base text-blue-500 border-2 border-blue-500 w-full rounded-full h-10">
-          {packageInfo?.status === 1 && "Đã xử lý"}
-          {packageInfo?.status === 0 && "Chưa xử lý"}
-          {packageInfo?.status === -1 && "Đã hủy"}
+          {order?.status === 1 && "Đã xử lý"}
+          {order?.status === 0 && "Chưa xử lý"}
+          {order?.status === -1 && "Đã hủy"}
         </div>
         <div className="row-span-1 text-lg font-semibold text-red-500 flex items-end">
-          Tổng tiền: {formatPrice(order?.price || 0)}
+          Tổng tiền: {formatPrice(order?.totalPrice || 0)}
         </div>
       </div>
     </div>
