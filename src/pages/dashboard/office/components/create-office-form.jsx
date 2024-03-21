@@ -29,6 +29,8 @@ import { useState } from "react"
 import { createOffice } from "../../../../lib/api/office-api"
 import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import { reRender } from "../../../../store/feature/reRenderSlice"
 
 const formSchema = z.object({
     officeName: z.string("Office name is required"),
@@ -47,6 +49,7 @@ export default function CreateOfficeForm() {
     const [file, setFile] = useState(null)
     const [imageError, setImageError] = useState()
     const [loading, setLoading] = useState(false)
+    const dispatch = useDispatch()
 
     const form = useForm({
         resolver: zodResolver(formSchema),
@@ -63,6 +66,7 @@ export default function CreateOfficeForm() {
         }
         if (response.data?.isSuccess) {
             toast.success("Tạo văn phòng thành công")
+            dispatch(reRender())
             navigate("/office")
         } else {
             toast.error("Lỗi tạo văn phòng")

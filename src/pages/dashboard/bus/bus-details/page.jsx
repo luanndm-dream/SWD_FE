@@ -8,7 +8,7 @@ export default function BusDetaisPage() {
     const { id } = useParams()
 
     function handleClick() {
-        navigate("/bus")
+        navigate(-1)
     }
     const [route, setRoute] = useState({})
 

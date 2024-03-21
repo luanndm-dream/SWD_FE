@@ -1,6 +1,11 @@
 import BusIcon from "@/assets/icon/bus-circle.svg";
-import React from "react";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+import React, { useEffect, useState } from "react";
+import { getOffice } from "../../../../lib/api/office-api";
+import { useNavigate } from "react-router-dom";
+import HoverStation from "./HoverStation";
 export default function BusRouteDetails({ route }) {
+  const navigate = useNavigate()
   // id: 1375,
   //   name: 'Vinhomes Grand Park - Bến xe buýt Sài Gòn',
   //   description:
@@ -35,13 +40,17 @@ export default function BusRouteDetails({ route }) {
               <b>Thời gian kết thúc: </b> {route?.operateTime?.split("-")[1]}
             </span>
 
-            <span>
+            <span className="flex gap-4">
               <b>Trạm:</b>{" "}
               {route?.stations?.length != 0 ? (
                 <>
-                  {route?.stations?.map((station, index) => (
-                    <span key={index}>{station?.name} - </span>
-                  ))}
+                  {route?.stations?.map((station, index) => {
+                    
+
+                    return(
+                      <HoverStation key={index} station={station} />
+                    )
+                  })}
                 </>
               ) : (
                 "Không có trạm nào"

@@ -83,7 +83,7 @@ export default function OrderDetails() {
 
   const id = useParams().id;
   function handleClick() {
-    navigate("/order");
+    navigate(-1);
   }
   const handleGetOrderById = async () => {
     const response = await getOrderById(id);

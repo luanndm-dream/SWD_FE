@@ -10,7 +10,7 @@ export default function OfficeDetails() {
     const { id } = useParams()
 
     function handleClick() {
-        navigate("/office")
+        navigate(-1)
     }
     const [office, setRoute] = useState({})
 
