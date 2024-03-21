@@ -82,6 +82,7 @@ export default function BusManagementPage() {
                   }
                   return { ...t, isActive: false }
                 })
+                setSearchParams("")
                 setTabs(newTabs)
               }}
             >
@@ -132,29 +133,43 @@ export default function BusManagementPage() {
       }
       </div>
       {/* paging */}
-      <div className="flex justify-center gap-4 items-center">
-        <button
-          className="p-2 bg-slate-200 rounded-md cursor-pointer"
-          onClick={() => {
-            setPageIndex(pageIndex - 1)
-          }}
-          disabled={pageIndex === 1}
-        >
-          Trang trước
-        </button>
-        <div className="p-2 bg-slate-200 rounded-md">
+      {
+        (searchParams != "" || tabs[0].isActive) && (
+          <div className="flex justify-center">
+      <div className="grid grid-cols-3 w-[500px] gap-4 items-center mt-2">
+        {
+          pageIndex != 1 ? (
+            <button
+              className="p-2 bg-slate-200 rounded-md cursor-pointer"
+              onClick={() => {
+                setPageIndex(pageIndex - 1)
+              }}
+            >
+              Trang trước
+            </button>
+          ) : (
+            <div></div>
+          )
+        }
           Trang {pageIndex} / {Math.ceil(total / pageSize)}
+        {
+          !(pageIndex * pageSize >= total) ? (
+            <button
+              className="p-2 bg-slate-200 rounded-md cursor-pointer"
+              onClick={() => {
+                setPageIndex(pageIndex + 1)
+              }}
+            >
+              Trang sau
+            </button>
+          ) : (
+            <div></div>
+          )
+        }
         </div>
-        <button
-          className="p-2 bg-slate-200 rounded-md cursor-pointer"
-          onClick={() => {
-            setPageIndex(pageIndex + 1)
-          }}
-          disabled={pageIndex * pageSize >= total}
-        >
-          Trang sau
-        </button>
       </div>
+        )
+      }
     </div>
   )
 }

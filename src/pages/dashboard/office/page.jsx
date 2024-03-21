@@ -36,11 +36,11 @@ export default function OfficeManagementPage() {
   const [offices, setOffices] = useState([])
   const [searchOffices, setSearchOffices] = useState([])
   const [searchParams, setSearchParams] = useState("")
-  const reRender = useSelector(state => state.reRender.reRender)
   const [pageIndex, setPageIndex] = useState(1)
   const [pageSize, setPageSize] = useState(10)
   const [total, setTotal] = useState(0)
-
+  
+  const reRender = useSelector(state => state.reRender.reRender)
   useEffect(() => {
     const init = async () => {
       getOffices(searchParams, pageIndex, pageSize)
@@ -50,13 +50,13 @@ export default function OfficeManagementPage() {
             toast.error("Lỗi lấy dữ liệu")
           } else {
             console.log(res.data)
-            
+            setOffices(res.data?.data?.items || [])
             setTotal(res.data?.data?.totalCount || 0)
+
             if (searchParams != "") {
               console.log(searchParams)
               setSearchOffices(res.data?.data?.items || [])
             }else{
-              setOffices(res.data?.data?.items || [])
               setSearchOffices([])
             }
           }
@@ -64,18 +64,6 @@ export default function OfficeManagementPage() {
     }
     init()
   }, [reRender, pageIndex, pageSize, searchParams])
-
-  // useEffect(() => {
-  //   console.log("1")
-  //   if (searchParams === "") {
-  //     setSearchOffices([])
-  //   } else {
-  //     setSearchOffices(offices.filter(office => office.name.toLowerCase().includes(searchParams.toLowerCase())))
-  //   }
-  // }, [searchParams, offices])
-
-
-
 
   return (
     <div className="w-full">
@@ -97,6 +85,7 @@ export default function OfficeManagementPage() {
                   }
                   return { ...t, isActive: false }
                 })
+                setSearchParams("")
                 setTabs(newTabs)
               }}
             >
@@ -130,7 +119,10 @@ export default function OfficeManagementPage() {
                         searchParams
                       }
                       onChange={
-                        (e) => setSearchParams(e.target.value)
+                        (e) => {
+                          setSearchParams(e.target.value)
+                          setPageIndex(1)
+                        }
                       }
                     />
                     <Search className="absolute left-6 top-5 text-gray-400"
@@ -164,29 +156,43 @@ export default function OfficeManagementPage() {
 
       }
       </div>
-      <div className="flex justify-center gap-4 items-center mt-2">
-        <button
-          className="p-2 bg-slate-200 rounded-md cursor-pointer"
-          onClick={() => {
-            setPageIndex(pageIndex - 1)
-          }}
-          disabled={pageIndex === 1}
-        >
-          Trang trước
-        </button>
-        <div className="p-2 bg-slate-200 rounded-md">
+      {
+        (searchParams != "" || tabs[0].isActive) && (
+          <div className="flex justify-center">
+      <div className="grid grid-cols-3 w-[500px] gap-4 items-center mt-2">
+        {
+          pageIndex != 1 ? (
+            <button
+              className="p-2 bg-slate-200 rounded-md cursor-pointer"
+              onClick={() => {
+                setPageIndex(pageIndex - 1)
+              }}
+            >
+              Trang trước
+            </button>
+          ) : (
+            <div></div>
+          )
+        }
           Trang {pageIndex} / {Math.ceil(total / pageSize)}
+        {
+          !(pageIndex * pageSize >= total) ? (
+            <button
+              className="p-2 bg-slate-200 rounded-md cursor-pointer"
+              onClick={() => {
+                setPageIndex(pageIndex + 1)
+              }}
+            >
+              Trang sau
+            </button>
+          ) : (
+            <div></div>
+          )
+        }
         </div>
-        <button
-          className="p-2 bg-slate-200 rounded-md cursor-pointer"
-          onClick={() => {
-            setPageIndex(pageIndex + 1)
-          }}
-          disabled={pageIndex * pageSize >= total}
-        >
-          Trang sau
-        </button>
       </div>
+        )
+      }
     </div>
   )
 }
