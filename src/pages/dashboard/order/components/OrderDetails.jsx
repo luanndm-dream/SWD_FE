@@ -16,6 +16,7 @@ export default function OrderDetails() {
           <div className="flex justify-center items-center p-6 bg-white max-h-56 object-cover rounded-md">
             <img src={orderImage} alt={order?.name} />
           </div>
+<<<<<<< Updated upstream
           <div className="w-full">
             {order?.orderStage?.map((stage, index) => (
               <div key={index} className="grid grid-cols-3">
@@ -40,6 +41,64 @@ export default function OrderDetails() {
                 {index !== (order.orderStage?.length ?? 0) - 1 && (
                   <div className="col-span-3 text-center text-sm">|</div>
                 )}
+=======
+          <div className="col-span-2 space-y-3 relative">
+            <div className="font-semibold text-lg  text-[#50a4b8]">
+              Mã đơn hàng: {order?.id}
+            </div>
+            <div className="font-semibold text-sm col-span-1 truncate">
+              Khối lượng:{" "}
+              <span className="text-sm font-normal">{order?.weight} kg</span>
+            </div>
+            <div className="font-semibold text-sm">
+              Địa chỉ:{" "}
+              <span className="text-sm font-normal truncate">
+                {toOffice?.address}
+              </span>
+            </div>
+            <div className="font-semibold text-sm">
+              Từ trạm:{" "}
+              <span className="text-sm font-normal truncate">
+                {fromOffice?.name}
+              </span>
+            </div>
+            <div className="font-semibold text-sm">
+              Đến Trạm:{" "}
+              <span className="text-sm font-normal truncate">
+                {toOffice?.name}
+              </span>
+            </div>
+            <div className="font-semibold text-sm">
+              Thời gian đặt:{" "}
+              <span className="text-sm font-normal truncate">
+                {packageData?.createTime}
+              </span>
+            </div>
+            <div className="font-semibold text-sm">
+              Ghi chú:{" "}
+              <span className="text-sm font-normal truncate">{packageData?.note}</span>
+            </div>
+            <div className="font-semibold text-sm">
+              Số lượng sản phẩm:{" "}
+              <span className="text-sm font-normal truncate">
+                {packageData?.quantity}
+              </span>
+            </div>
+            <div className="font-semibold text-sm">
+              Bus:{" "}
+              <span className="text-sm font-normal truncate">
+                {bus?.name}
+              </span>
+            </div>
+            <div className="absolute bottom-0 right-0 flex flex-col items-center justify-center gap-3">
+              <div className="flex justify-center items-center text-base text-blue-500 border-2 border-blue-500 rounded-full px-4 py-2">
+                {packageData?.status === 1 && "Đã xử lý"}
+                {packageData?.status === 0 && "Chưa xử lý"}
+                {packageData?.status === -1 && "Đã hủy"}
+              </div>
+              <div className="row-span-1 text-lg font-semibold text-red-500">
+                Tổng tiền: {formatPrice(order?.price || 0)}
+>>>>>>> Stashed changes
               </div>
             ))}
           </div>

@@ -1,38 +1,65 @@
-import { useEffect, useState } from "react"
-import { DatePicker } from "./DatePicker"
-import { Input } from "@/components/ui/input"
-import research from "@/assets/icon/research.svg"
+import { useSelector } from "react-redux";
+import OrderCard from "./OrderCard";
+import { useEffect, useState } from "react";
+import { getOrders } from "../../../../lib/api/order-api";
 
-export default function Filter() {
-  const [fromDate, setFromDate] = useState(null)
-  const [toDate, setToDate] = useState(null)
-  const [search, setSearch] = useState("")
+export default function NotProccessList() {
+    const [orders, setOrders] = useState([]);
+    const [pageIndex, setPageIndex] = useState(1)
+    const [pageSize, setPageSize] = useState(10)
+    const [total, setTotal] = useState(0)
 
-  useEffect(() => {
-    console.log(fromDate, toDate)
-    console.log(search)
-  }, [fromDate, toDate, search])
-  return (
-    <div className="w-full bg-[#eaf4fa] px-28 py-3 rounded-md space-y-2">
-      <div className="w-full flex items-center justify-between">
-        <DatePicker placeholder="Từ Ngày" setDateProp={setFromDate} />
-        <DatePicker placeholder="Đến Ngày" setDateProp={setToDate} />
-      </div>
-      <div className="relative">
-        <Input
-          placeholder="Nhập mã đơn hàng/tên sản phẩm"
-          className="px-16"
-          value={search}
-          onChange={event => {
-            setSearch(event.target.value)
-          }}
-        />
-        <img
-          src={research}
-          alt="research"
-          className="w-6 h-6 absolute left-4 top-2"
-        />
-      </div>
-    </div>
-  )
+    const handleGetOrders = async () => {
+        const response = await getOrders(pageIndex, pageSize);
+        console.log(response);
+        setOrders(response?.data?.items);
+        setTotal(response?.data?.totalCount);
+        console.log(orders?.data?.totalCount);
+    }
+
+    useEffect(() => {
+        handleGetOrders();
+    }, [pageIndex, pageSize])
+
+    return (
+        <div className="w-full mt-4">
+            <div className="p-2 space-y-4 h-[500px] overflow-y-scroll">
+                {orders.length === 0 ? (
+                    <div>Không có đơn hàng nào</div>
+                ) : (
+                    <div>
+                        {
+                            orders.map((order, index) => (
+                                <OrderCard key={index} order={order} />
+                            ))
+                        }
+                    </div>
+                )}
+
+            </div>
+            <div className="flex justify-center gap-4 items-center mt-2">
+                <button
+                    className="p-2 bg-slate-200 rounded-md cursor-pointer"
+                    onClick={() => {
+                        setPageIndex(pageIndex - 1)
+                    }}
+                    disabled={pageIndex === 1}
+                >
+                    Trang trước
+                </button>
+                <div className="p-2 bg-slate-200 rounded-md">
+                    Trang {pageIndex} / {Math.ceil(total / pageSize)}
+                </div>
+                <button
+                    className="p-2 bg-slate-200 rounded-md cursor-pointer"
+                    onClick={() => {
+                        setPageIndex(pageIndex + 1)
+                    }}
+                    disabled={pageIndex * pageSize >= total}
+                >
+                    Trang sau
+                </button>
+            </div>
+        </div>
+    )
 }

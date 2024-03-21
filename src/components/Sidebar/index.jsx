@@ -1,6 +1,6 @@
 import { cx } from "class-variance-authority"
-import { Menu, XIcon } from "lucide-react"
-import { useState } from "react"
+import { Menu, XIcon, MoonIcon, LogOutIcon } from "lucide-react" // Assuming MoonIcon and LogOutIcon are icons for Dark Mode and Logout respectively
+import { useEffect, useState } from "react"
 import { CSSTransition } from "react-transition-group"
 import HomeIcon from "@/assets/icon/home.svg"
 import OfficeIcon from "@/assets/icon/office-management.svg"
@@ -8,69 +8,71 @@ import OrderIcon from "@/assets/icon/order-management.svg"
 import BusIcon from "@/assets/icon/route management.svg"
 import StaffIcon from "@/assets/icon/staff.svg"
 import SettingIcon from "@/assets/icon/settings.svg"
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { cn } from "@/lib/utils"
 
 const menuItems = [
   {
     title: "Home",
-    icon: (
-      <div>
-        <img src={HomeIcon} alt="icon" className="h-10 w-10" />
-      </div>
-    ),
-    link: "/"
+    icon: <img src={HomeIcon} alt="icon" className="h-10 w-10" />,
+    link: "/home"
   },
   {
     title: "Quản lí Office",
-    icon: (
-      <div>
-        <img src={OfficeIcon} alt="icon" className="h-10 w-10" />
-      </div>
-    ),
-    link: "/office"
+    icon: <img src={OfficeIcon} alt="icon" className="h-10 w-10" />,
+    link: "/dashboard/office"
   },
   {
     title: "Quản lí tuyến xe",
-    icon: (
-      <div>
-        <img src={BusIcon} alt="icon" className="h-10 w-10" />
-      </div>
-    ),
-    link: "/bus"
+    icon: <img src={BusIcon} alt="icon" className="h-10 w-10" />,
+    link: "/dashboard/bus"
   },
   {
     title: "Quản lí đơn hàng",
-    icon: (
-      <div>
-        <img src={OrderIcon} alt="icon" className="h-10 w-10" />
-      </div>
-    ),
-    link: "/order"
+    icon: <img src={OrderIcon} alt="icon" className="h-10 w-10" />,
+    link: "/dashboard/order"
   },
   {
     title: "Quản lí nhân viên",
-    icon: (
-      <div>
-        <img src={StaffIcon} alt="icon" className="h-10 w-10" />
-      </div>
-    ),
-    link: "/staff"
+    icon: <img src={StaffIcon} alt="icon" className="h-10 w-10" />,
+    link: "/dashboard/staff"
   },
   {
     title: "Cài đặt",
-    icon: (
-      <div>
-        <img src={SettingIcon} alt="icon" className="h-10 w-10" />
-      </div>
-    ),
-    link: "/setting"
+    icon: <img src={SettingIcon} alt="icon" className="h-10 w-10" />,
+    options: [
+      {
+        title: "Dark Mode",
+        // action: toggleDarkMode,
+        icon: <MoonIcon size={16} />,
+        key: "darkMode"
+      },
+      {
+        title: "Logout",
+        // action: handleLogout,
+        icon: <LogOutIcon size={16} />,
+        key: "logout"
+      }
+    ]
   }
-]
+];
+
+
 
 const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(true)
-  const location = useLocation()
+  const [isOpen, setIsOpen] = useState(true);
+  const [showSettings, setShowSettings] = useState(false); // State to track whether settings dropdown is open
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/")
+  }
+  const toggleSettings = () => {
+    setShowSettings(!showSettings);
+  };
+
   return (
     <div className={cx("sidebar", { "sidebar-closed": !isOpen })}>
       <button
@@ -81,29 +83,73 @@ const Sidebar = () => {
       </button>
       <ul className="space-y-2 mt-4">
         {menuItems.map(item => (
-          <Link to={item.link} key={item.title}>
-            <div
-              className={cn(
-                "flex gap-4 items-center cursor-pointer hover:bg-[#B8F2FF] rounded-xl p-4",
-                location.pathname.toLowerCase() == item.link.toLowerCase() &&
-                  "bg-[#B8F2FF]"
-              )}
-            >
-              {item.icon}
-              <CSSTransition
-                in={isOpen}
-                timeout={200}
-                classNames={"fade"}
-                unmountOnExit
-              >
-                <span>{item.title}</span>
-              </CSSTransition>
-            </div>
-          </Link>
+          <div key={item.title}>
+            {item.options ? (
+              <>
+                <div
+                  className={cn(
+                    "flex gap-4 items-center cursor-pointer hover:bg-[#B8F2FF] rounded-xl p-4",
+                    location && location.pathname.toLowerCase() === (item.link || "").toLowerCase() &&
+                    "bg-[#B8F2FF]"
+                  )}
+                  onClick={toggleSettings}
+                >
+                  {item.icon}
+                  <CSSTransition
+                    in={isOpen}
+                    timeout={200}
+                    classNames={"fade"}
+                    unmountOnExit
+                  >
+                    <span>{item.title}</span>
+                  </CSSTransition>
+                </div>
+                <CSSTransition
+                  in={showSettings} // Show dropdown only when state is true
+                  timeout={200}
+                  classNames={"fade"}
+                  unmountOnExit
+                >
+                  <div className="pl-8"> {/* Indent dropdown content */}
+                    {item.options.map(option => (
+                      <div
+                        key={option.key}
+                        className="flex items-center cursor-pointer hover:bg-[#B8F2FF] rounded-xl p-2"
+                        onClick={option.action || handleLogout}
+                      >
+                        {option.icon}
+                        <span className="ml-2">{option.title}</span>
+                      </div>
+                    ))}
+                  </div>
+                </CSSTransition>
+              </>
+            ) : ( // If menu item doesn't have options, render as usual
+              <Link to={item.link}>
+                <div
+                  className={cn(
+                    "flex gap-4 items-center cursor-pointer hover:bg-[#B8F2FF] rounded-xl p-4",
+                    location.pathname.toLowerCase() == item.link.toLowerCase() &&
+                    "bg-[#B8F2FF]"
+                  )}
+                >
+                  {item.icon}
+                  <CSSTransition
+                    in={isOpen}
+                    timeout={200}
+                    classNames={"fade"}
+                    unmountOnExit
+                  >
+                    <span>{item.title}</span>
+                  </CSSTransition>
+                </div>
+              </Link>
+            )}
+          </div>
         ))}
       </ul>
     </div>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;

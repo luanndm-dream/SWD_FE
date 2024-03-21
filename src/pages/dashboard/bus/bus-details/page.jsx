@@ -6,7 +6,7 @@ export default function BusDetaisPage() {
     const navigate = useNavigate();
 
     function handleClick() {
-        navigate("/bus")
+        navigate("/dashboard/bus")
     }
   return (
     <div>

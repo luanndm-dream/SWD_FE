@@ -14,50 +14,79 @@ import LoginPage from "./pages/login/index.jsx"
 import BusDetaisPage from "./pages/dashboard/bus/bus-details/page.jsx"
 import OrderDetails from "./pages/dashboard/order/components/OrderDetails.jsx"
 import NotProccessList from './pages/dashboard/order/components/NotProccessList.jsx';
-import { AuthProvider } from "./context/AuthProvider.jsx"
+import OfficeDetails from "./pages/dashboard/office/office-details/page.jsx"
+import 'react-toastify/dist/ReactToastify.css';
+import ManageStaff from "./pages/dashboard/staff/page.jsx"
+import ManageSetting from "./pages/setting/page.jsx"
+import CreateStaff from './pages/dashboard/staff/createStaff';
+import UpdateStaff from "./pages/dashboard/staff/updateStaff.jsx"
+
 
 const router = createBrowserRouter([
 
   {
-    path: "/",
+    path: "/home",
     element: <HomePage />,
     errorElement: <ErrorPage />
   },
   {
-    path: "/",
+    path: "/dashboard",
     element: <DashboardLayout />,
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "/office",
+
+      },
+      {
+        path: "/dashboard/office",
         element: <OfficeManagementPage />
       },
       {
-        path: "/bus",
+        path: "/dashboard/office/:id",
+        element: <OfficeDetails />
+      },
+      {
+        path: "/dashboard/bus",
         element: <BusManagementPage />
       },
       {
-        path: "/bus/:id",
+        path: "/dashboard/bus/:id",
         element: <BusDetaisPage />
       },
       {
-        path: "/order",
+        path: "/dashboard/order",
         element: <OrderManagementPage />,
         children: [
           {
-            path: "/order",
+            path: "/dashboard/order",
             element: <NotProccessList />,
           },
           {
-            path: "/order/:id",
+            path: "/dashboard/order/:id",
             element: <OrderDetails />,
           },
         ]
+      },
+      {
+        path: "/dashboard/staff",
+        element: <ManageStaff />
+      },
+      {
+        path: "/dashboard/createStaff",
+        element: <CreateStaff />
+      },
+      {
+        path: "/dashboard/updateStaff/:id",
+        element: <UpdateStaff />
       }
     ]
   },
   {
-    path: "/login",
+    path:"/setting",
+    element: <ManageSetting />
+  },
+  {
+    path: "/",
     element: <LoginPage />,
     errorElement: <ErrorPage />
   }
