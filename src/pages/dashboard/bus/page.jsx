@@ -1,7 +1,8 @@
-import { useState } from "react"
-import OfficeIcon from "@/assets/icon/list.svg"
 import BusLine from "@/assets/icon/bus-lane.svg"
-import { busRoutes } from "./components/mock-data"
+import OfficeIcon from "@/assets/icon/list.svg"
+import { Search } from "lucide-react"
+import { useEffect, useState } from "react"
+import { getBusRoutes } from "../../../lib/api/bus-api"
 import BusRoute from "./components/BusRoute"
 
 export default function BusManagementPage() {
@@ -14,6 +15,44 @@ export default function BusManagementPage() {
       <img src={BusLine} alt="icon" className="h-14 w-14" />
     </div>}
   ])
+
+  const [busRoutes, setBusRoutes] = useState([])
+  const [searchParams, setSearchParams] = useState("")
+  const [searchResult, setSearchResult] = useState([])
+  const [pageIndex, setPageIndex] = useState(1)
+  const [pageSize, setPageSize] = useState(10)
+  const [total, setTotal] = useState(0)
+
+  console.log(
+    pageIndex,
+    pageSize,
+    searchParams,
+    total
+  )
+
+  console.log(pageIndex)
+
+
+  useEffect(() => {
+    console.log(pageIndex)
+      getBusRoutes(
+        pageIndex,
+        pageSize,
+        searchParams,
+      )
+      .then((res) => {
+        if(res.error){
+          console.log(res.error)
+        }else{
+          console.log(res.data?.data)
+          setBusRoutes(res.data?.data?.items || [])
+          setTotal(res.data?.data?.totalCount || 0)
+        }
+      })
+  }, [
+    pageIndex,
+  ])
+
   return (
     <div className="w-full">
       <section className="flex w-full">
@@ -22,7 +61,7 @@ export default function BusManagementPage() {
             key={index}
             className={`flex-1 py-4 ${
               tab.isActive
-                ? "border-b-2 border-blue-500"
+                ? "border-b-2 border-[#4BA2B6]"
                 : "border-b-2 border-transparent"
             }`}
           >
@@ -46,7 +85,7 @@ export default function BusManagementPage() {
           </div>
         ))}
       </section>
-      <div className="p-2">{tabs[0].isActive ? 
+      <div className="p-2 h-[75vh] overflow-scroll">{tabs[0].isActive ? 
         <div className="h-[80vh] overflow-y-scroll space-y-4">
           {
             busRoutes.map((route, index) => (
@@ -56,21 +95,55 @@ export default function BusManagementPage() {
         </div> 
         : 
         <div className="h-[80vh] overflow-y-scroll space-y-4">
-          <div>
-            <input
-              type="text"
-              placeholder="Nhập tên tuyến xe"
-              className="w-full p-4 rounded-xl border-2 border-gray-300"
-            />
-          </div>
+           <div>
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Nhập tên tuyến xe"
+                    className="w-full p-4 rounded-xl border-2 border-gray-300 pl-16"
+                    onChange={(e) => setSearchParams(e.target.value)}
+                    value={searchParams}
+                  />
+                  <Search className="absolute left-6 top-5 text-gray-400" />
+                </div>
+                <div className="py-2 px-4 bg-slate-200 rounded-md mt-4">
+                  Có {
+                    searchResult?.length
+                  + " "}  tên trùng với tìm kiếm
+                </div>
+              </div>
           {
-            busRoutes.slice(7).map((route, index) => (
+            searchResult?.map((route, index) => (
               <BusRoute key={index} route={route} />
             ))
           }
         </div>
         }
       </div>
+      {/* paging */}
+      <div className="flex justify-center gap-4 items-center">
+        <button
+          className="p-2 bg-slate-200 rounded-md cursor-pointer"
+          onClick={() => {
+            setPageIndex(pageIndex - 1)
+          }}
+          disabled={pageIndex === 1}
+        >
+          Trang trước
+        </button>
+        <div className="p-2 bg-slate-200 rounded-md">
+          Trang {pageIndex} / {Math.ceil(total / pageSize)}
+        </div>
+        <button
+          className="p-2 bg-slate-200 rounded-md cursor-pointer"
+          onClick={() => {
+            setPageIndex(pageIndex + 1)
+          }}
+          disabled={pageIndex * pageSize >= total}
+        >
+          Trang sau
+        </button>
+        </div>
     </div>
   )
 }

@@ -4,14 +4,14 @@ import { Provider } from "react-redux"
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import "./index.css"
 import HomePage from "./pages/home/index.jsx"
-import { store } from "./store/store.ts"
+import { store } from "./store/store.js"
 import DashboardLayout from "./components/layout/DashboardLayout.jsx"
 import OfficeManagementPage from "./pages/dashboard/office/page.jsx"
 import BusManagementPage from "./pages/dashboard/bus/page.jsx"
 import OrderManagementPage from "./pages/dashboard/order/page.jsx"
 import ErrorPage from "./pages/error/ErrorPage.jsx"
-import LoginPage from "./pages/login/index.jsx"
-import BusDetaisPage from "./pages/dashboard/bus/bus-details/page.jsx"
+import LoginPage from "@/pages/login"
+import BusDetailsPage from "./pages/dashboard/bus/bus-details/page.jsx"
 import OrderDetails from "./pages/dashboard/order/components/OrderDetails.jsx"
 import NotProccessList from './pages/dashboard/order/components/NotProccessList.jsx';
 import OfficeDetails from "./pages/dashboard/office/office-details/page.jsx"
@@ -23,7 +23,6 @@ import UpdateStaff from "./pages/dashboard/staff/updateStaff.jsx"
 
 
 const router = createBrowserRouter([
-
   {
     path: "/home",
     element: <HomePage />,
@@ -51,7 +50,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard/bus/:id",
-        element: <BusDetaisPage />
+        element: <BusDetailsPage />
       },
       {
         path: "/dashboard/order",
@@ -95,10 +94,7 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
-    <AuthProvider> {/* Wrap LoginPage with AuthProvider */}
-        <RouterProvider router={router} />
-      </AuthProvider>
-      {/* <RouterProvider router={router} /> */}
+      <RouterProvider router={router} />
     </Provider>
   </React.StrictMode>
 )

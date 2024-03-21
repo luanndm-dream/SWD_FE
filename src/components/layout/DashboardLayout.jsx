@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom'
 import Header from '../Header'
 import Sidebar from '../Sidebar'
+import { ToastContainer } from 'react-toastify'
 
 export default function DashboardLayout() {
   return (
@@ -11,6 +12,7 @@ export default function DashboardLayout() {
         <div className='overflow-y-scroll w-full flex-1'>
           <Outlet />
         </div>
+        <ToastContainer />
       </div>
     </div>
   )

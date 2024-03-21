@@ -9,6 +9,7 @@ const UpdateStaff = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [avatar, setAvatar] = useState(null);
+    const [dataOffice, setDataOffice] = useState();
     const [data, setData] = useState({
         name: "",
         email: "",
@@ -30,10 +31,18 @@ const UpdateStaff = () => {
             })
             .catch(err => console.log(err));
     }, [id]);
+    useEffect(() => {
+        axiosClient.get(`Api/V1/Office?Status=true&PageIndex=1&PageSize=10`)
+            .then(res => {
+                setDataOffice(res.data.data.items);
+                console.log(res.data.data.items, "data office")
+            })
+            .catch(err => console.log(err));
+    }, []);
 
     function handleSubmit(event) {
         event.preventDefault();
-        
+
         const formData = new FormData();
         formData.append('name', data.name);
         formData.append('email', data.email);
@@ -45,25 +54,21 @@ const UpdateStaff = () => {
         formData.append('officeId', data.officeId);
         formData.append('isActive', data.isActive);
         formData.append('avatar', avatar); // Append the avatar file
-        
+
         axios.put(`https://busdeliveryapi.azurewebsites.net/Api/V1/User/${id}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 'Authorization': `Bearer ${localStorage.getItem("accessToken")}`
             }
         })
-        .then(res => {
-            alert("User's data updated successfully!");
-            navigate("/dashboard/staff");
-        })
-        .catch(error => {
-            console.error("Error updating user data:", error);
-        });
+            .then(res => {
+                alert("User's data updated successfully!");
+                navigate("/dashboard/staff");
+            })
+            .catch(error => {
+                console.error("Error updating user data:", error);
+            });
     }
-    // function handleAvatarChange(event) {
-    //     const file = event.target.files[0];
-    //     setAvatar(file);
-    // }
 
     return (
         <div className="create-form">
@@ -146,7 +151,7 @@ const UpdateStaff = () => {
                             <RadioGroup
                                 row
                                 aria-labelledby="demo-row-radio-buttons-group-label"
-                                name="isAvtive"
+                                name="isActive"
                                 value={data.isActive}
                                 onChange={e => setData({ ...data, isActive: e.target.value })}
                             >
@@ -186,9 +191,9 @@ const UpdateStaff = () => {
                                 fullWidth
                                 label="Văn phòng"
                             >
-                                <MenuItem value="">None</MenuItem>
-                                <MenuItem value={1}>Văn phòng 1</MenuItem>
-                                <MenuItem value={2}>Văn phòng 2</MenuItem>
+                                {dataOffice && dataOffice.map(office => (
+                                        <MenuItem key={office.id} value={office.id}>{office.name}</MenuItem>
+                                    ))}
                             </Select>
                         </FormControl>
                         {/* Avatar */}
@@ -196,7 +201,7 @@ const UpdateStaff = () => {
                             fullWidth
                             variant="outlined"
                             type="file"
-                            
+
                             onChange={e => {
                                 console.log(e.target.files[0])
                                 setAvatar(e.target.files[0])

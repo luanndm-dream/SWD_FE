@@ -166,28 +166,7 @@ export default function HomePage() {
               backgroundColor={colors.primary[400]}
               style={{ position: 'relative' }}
             >
-              <ReactMapGL
-                {...viewPort}
-                mapboxAccessToken='pk.eyJ1IjoidGhhbmhwaHUwMyIsImEiOiJjbHR1a3BmaWQxNnNrMmpsYWk4cGl2ZGVuIn0.974KLCaP4yQjRvImqhMA7w'
-                transitionDuration='200'
-                onViewportChange={viewport => setViewPort(viewport)}
-                mapStyle="mapbox://styles/mapbox/streets-v11"
-              >
-                {dataOffice.map((office, index) => (
-                  <Marker
-                    key={index}
-                    latitude={office.lat}
-                    longitude={office.lng}
-                    offsetLeft={-20}
-                    offsetTop={-30}
-                  >
-                    {/* Custom Marker */}
-                    <div style={{ color: 'red', fontSize: '20px' }}>📍</div>
-                  </Marker>
-                ))}
 
-
-              </ReactMapGL>
             </Box>
             <Box
               gridColumn="span 4"

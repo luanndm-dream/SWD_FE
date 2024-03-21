@@ -9,6 +9,21 @@ export const axiosClient = axios.create({
   },
 })
 
+axiosClient.interceptors.request.use(
+  async (config) => {
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+      config.headers.Accept = "application/json";
+      config.headers["Content-Type"] = "application/json";
+    }
+    return config;
+  },
+  (error) => {
+    Promise.reject(error);
+  }
+);
+
 export const handleApiError = async (error) => {
   try {
     const errorMessage =

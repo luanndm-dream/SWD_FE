@@ -1,8 +1,3 @@
-<<<<<<< Updated upstream
-export default function OfficeManagementPage() {
-  return (
-    <div>OfficeManagementPage</div>
-=======
 import FindOffice from "@/assets/icon/find-office.svg"
 import OfficeIcon from "@/assets/icon/list.svg"
 import CreateOffice from "@/assets/icon/create-office.svg"
@@ -187,6 +182,5 @@ export default function OfficeManagementPage() {
         </button>
       </div>
     </div>
->>>>>>> Stashed changes
   )
 }

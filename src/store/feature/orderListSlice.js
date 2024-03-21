@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { orderData } from "@/pages/dashboard/order/data/orderData";
 const initialState = {
-  orderList: orderData,
+  orderList: [],
 };
 
 const orderListSlice = createSlice({

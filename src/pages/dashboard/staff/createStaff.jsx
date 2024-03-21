@@ -26,7 +26,7 @@ const CreateStaff = () => {
         gentle: "",
         avatar: null
     })
-
+    const [dataOffice, setDataOffice] = useState();
     const [uploadAvatar, setUploadAvatar] = useState(null);
 
 
@@ -65,14 +65,15 @@ const CreateStaff = () => {
                 console.log(error.response, "error")
             });
 
-
-        // axiosClient.post(`Api/V1/User`, newData)
-        //     .then(res => {
-        //         alert("Data Added Successfully!")
-        //         navigate("/dashboard/staff")
-        //     }).catch(err => console.log(err.response, "error"))
-
     };
+    useEffect(() => {
+        axiosClient.get(`Api/V1/Office?Status=true&PageIndex=1&PageSize=10`)
+            .then(res => {
+                setDataOffice(res.data.data.items);
+                console.log(res.data.data.items, "data office")
+            })
+            .catch(err => console.log(err));
+    }, []);
     return (
         <>
             {/* navigate bar */}
@@ -201,10 +202,10 @@ const CreateStaff = () => {
                                     fullWidth
                                     label="Văn phòng"
                                 >
-                                    <MenuItem value="">None</MenuItem>
-                                    <MenuItem value={1}>Văn phòng 1</MenuItem>
-                                    <MenuItem value={2}>Văn phòng 2</MenuItem>
-                                    {/* Add other MenuItems as needed */}
+                                    {dataOffice && dataOffice.map(office => (
+                                        <MenuItem key={office.id} value={office.id}>{office.name}</MenuItem>
+                                    ))}
+
                                 </Select>
                             </FormControl>
 
@@ -217,7 +218,6 @@ const CreateStaff = () => {
                                     // console.log(e.target.files[0])
                                     setUploadAvatar(e.target.files[0])
                                 }
-                                    // setInputData({ ...inputData, avatar: e.target.files[0] })
                                 }
                                 name="avatar"
                                 sx={{ gridColumn: "span 4" }}
@@ -237,27 +237,5 @@ const CreateStaff = () => {
         </>
     );
 }
-// const phoneRegExp =
-//     /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
-
-// const checkoutSchema = yup.object().shape({
-//     name: yup.string().required("required"),
-//     email: yup.string().email("invalid email").required("required"),
-//     password: yup.string().required("required"), // Corrected to validate strings
-//     gentle: yup.string().required("required"), // Assuming 'gentle' is for gender
-//     roleId: yup.number().required("required"), // Corrected for 'roleId' field
-//     officeId: yup.number().required("required") // Corrected for 'officeId' field
-// });
-// const initialValues = {
-//     name: "",
-//     roleId: "",
-//     officeId: "",
-//     email: "",
-//     password: "",
-//     identity: "",
-//     gentle: "",
-//     avatar: null
-// };
-
 
 export default CreateStaff;
