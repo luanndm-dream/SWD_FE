@@ -8,7 +8,17 @@ import { useEffect, useState } from 'react';
 import { getOrders } from '../../../lib/api/order-api.js';
 import { getPackages } from '../../../lib/api/package-api.js';
 
+function formatDate(date) {
+  // Check if the input is a valid Date object
+  if (!(date instanceof Date) || isNaN(date.getTime())) {
+    return null; // Return null if the input is not a valid date
+  }
 
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+  const year = date.getFullYear();
+  return `${day}-${month}-${year}`;
+}
 
 export default function OrderManagementPage() {
 
@@ -31,16 +41,16 @@ export default function OrderManagementPage() {
     // setTotal(response?.data?.totalCount);
     // console.log(orders?.data?.totalCount);
 
-    getPackages(pageIndex, pageSize, search, fromDate, toDate)
+    getPackages(pageIndex, pageSize, formatDate(fromDate), formatDate(toDate))
     .then(res => {
       if (res.error) {
         console.log(res.error)
       } else {
         console.log(res.data?.items)
         if(search != ""){
-          setOrders(res.data?.items.filter((item) => item?.id == search || item?.name?.includes(search)))
+          setOrders(res.data?.items.filter((item) => item?.id == search || item?.note?.toLowerCase()?.includes(search?.toLowerCase())))
         }else{
-          getPackages(pageIndex, pageSize, search, fromDate, toDate)
+          getPackages(pageIndex, pageSize, formatDate(fromDate), formatDate(toDate))
           .then(res => {
             if (res.error) {
               console.log(res.error)
@@ -57,6 +67,7 @@ export default function OrderManagementPage() {
   }
   useEffect(() => {
     handleGetPackages();
+    console.log(fromDate, toDate, search)
   }, [pageIndex, pageSize, search, fromDate, toDate])
 
   return (
@@ -71,15 +82,25 @@ export default function OrderManagementPage() {
 
       <Tabs defaultValue="notProcess" className="w-full mt-4" >
         <TabsList className='w-full grid grid-cols-2 h-14 bg-[#d5e9f5]'>
-          <TabsTrigger value="notProcess" className='col-span-1 h-full'>Chưa xử lý</TabsTrigger>
-          <TabsTrigger value="processed" className='col-span-1 h-full'>Đã xử lý</TabsTrigger>
+          <TabsTrigger value="notProcess" className='col-span-1 h-full' onClick={
+  () => {
+    setFromDate(null)
+            setToDate(null)
+  }
+          }>Chưa xử lý</TabsTrigger>
+          <TabsTrigger value="processed" className='col-span-1 h-full'onClick={
+  () => {
+    setFromDate(null)
+            setToDate(null)
+  }
+          }>Đã xử lý</TabsTrigger>
         </TabsList>
         <TabsContent value="notProcess">
-          <Filter setSearchToPage={setSearch} setFromDateParent={setFromDate} setToDateParent={setFromDate}/>
+          <Filter search={search} setSearch={setSearch} fromDate={fromDate} toDate={toDate} setFromDate={setFromDate} setToDate={setToDate}/>
           <NotProccessList orders={orders} />
         </TabsContent>
         <TabsContent value="processed">
-          <Filter setSearchToPage={setSearch} setFromDateParent={setFromDate} setToDateParent={setFromDate}/>
+          <Filter search={search} setSearch={setSearch} fromDate={fromDate} toDate={toDate} setFromDate={setFromDate} setToDate={setToDate}/>
           <ProccessList orders={orders} />
         </TabsContent>
       </Tabs>

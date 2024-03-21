@@ -3,22 +3,14 @@ import { DatePicker } from "./DatePicker"
 import { Input } from "@/components/ui/input"
 import research from "@/assets/icon/research.svg"
 
-export default function Filter({ setSearchToPage, setFromDateParent, setToDateParent}) {
-  const [fromDate, setFromDate] = useState(null)
-  const [toDate, setToDate] = useState(null)
-  const [search, setSearch] = useState("")
+export default function Filter({ search, setSearch, fromDate, toDate, setFromDate, setToDate}) {
 
-  useEffect(() => {
-    console.log(fromDate, toDate)
-    console.log(search)
-    setSearchToPage(search)
-    setFromDateParent(fromDate)
-    setToDateParent(toDate)
-  }, [fromDate, toDate, search])
+  console.log(fromDate, toDate, search)
+
   return (
     <div className="w-full bg-[#eaf4fa] px-28 py-3 rounded-md space-y-2">
       <div className="w-full flex items-center justify-between">
-        <DatePicker placeholder="Từ Ngày" setDateProp={setFromDate} />
+        <DatePicker placeholder="Từ Ngày"  setDateProp={setFromDate} />
         <DatePicker placeholder="Đến Ngày" setDateProp={setToDate} />
       </div>
       <div className="relative">

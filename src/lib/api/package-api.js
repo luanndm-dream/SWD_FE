@@ -9,14 +9,10 @@ export const getPackageById = async (packageId) => {
   }
 };
 
-export const getPackages = async (pageIndex, pageSize, search, fromTime, toTime) => {
+export const getPackages = async (pageIndex, pageSize, fromTime, toTime) => {
   try {
     const response = await axiosClient.get(
-      `/api/v1/Package?pageIndex=${pageIndex}&pageSize=${pageSize}
-        ${search ? `&search=${search}` : ""}
-        ${fromTime ? `&fromTime=${fromTime}` : ""}
-        ${toTime ? `&toTime=${toTime}` : ""}
-`
+      `/api/v1/Package?pageIndex=${pageIndex}&pageSize=${pageSize}${(fromTime && toTime) ? `&fromTime=${fromTime}&toTime=${toTime}` : ""}`
     );
     return response.data;
   } catch (error) {

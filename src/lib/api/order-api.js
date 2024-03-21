@@ -1,9 +1,9 @@
 import { axiosClient, handleApiError } from "./axiosClient";
 
-export const getOrders = async (pageIndex, pageSize, searchTerm) => {
+export const getOrders = async (pageIndex, pageSize) => {
   try {
     const response = await axiosClient.get(
-      `/api/v1/Order?pageIndex=${pageIndex}&pageSize=${pageSize}&searchTerm=${searchTerm}`
+      `/api/v1/Order?pageIndex=${pageIndex}&pageSize=${pageSize}`
     );
     return response.data;
   } catch (error) {
