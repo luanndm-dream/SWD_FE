@@ -21,6 +21,9 @@ export default function OfficeCard({ office }) {
     //   'https://busdeliveryimage.blob.core.windows.net/busdelivery/offices/BusDelivery%28Tr%E1%BA%A7n%20H%C6%B0ng%20%C4%90%E1%BA%A1o%29-1709710224',
     // isActive: true
     console.log(office?.image);
+
+    if(office?.isActive === false) return null
+
     return (
         <div className="rounded-xl bg-slate-200 p-4 px-6 flex items-center gap-4">
             <div>

@@ -39,6 +39,18 @@ export default function OfficeManagementPage() {
   const [pageIndex, setPageIndex] = useState(1)
   const [pageSize, setPageSize] = useState(10)
   const [total, setTotal] = useState(0)
+
+
+  const handleSetTabs = (index) => {
+    const newTabs = tabs.map((t, i) => {
+      if (index === i) {
+        return { ...t, isActive: true }
+      }
+      return { ...t, isActive: false }
+    })
+    setSearchParams("")
+    setTabs(newTabs)
+  }
   
   const reRender = useSelector(state => state.reRender.reRender)
   useEffect(() => {
@@ -79,14 +91,7 @@ export default function OfficeManagementPage() {
             <button
               className="w-full flex justify-center gap-4 items-center"
               onClick={() => {
-                const newTabs = tabs.map((t, i) => {
-                  if (index === i) {
-                    return { ...t, isActive: true }
-                  }
-                  return { ...t, isActive: false }
-                })
-                setSearchParams("")
-                setTabs(newTabs)
+                handleSetTabs(index)
               }}
             >
               {
@@ -149,7 +154,7 @@ export default function OfficeManagementPage() {
               </div>
               :
               <div>
-                <CreateOfficeForm />
+                <CreateOfficeForm handleSetTabs={handleSetTabs}/>
               </div>
           }
         </div>

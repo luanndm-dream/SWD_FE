@@ -4,82 +4,27 @@ import { useEffect, useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import { getPackageById } from "../../../../lib/api/package-api"
 import { getOffice } from "../../../../lib/api/office-api"
+import { format } from "date-fns"
 
 export default function OrderCard({ order, type }) {
   const [fromOffice, setFromOffice] = useState({});
   const [toOffice, setToOffice] = useState({});
 
-  // {
-    //     id: 9,
-    //     busId: 2,
-    //     fromOfficeId: 4,
-    //     toOfficeId: 1,
-    //     stationId: 1,
-    //     quantity: 1,
-    //     totalWeight: 1,
-    //     totalPrice: 10000,
-    //     image: ' ... (length: 451360)',
-    //     note: ' ... (length: 4)',
-    //     status: -1,
-    //     createTime: ' ... (length: 10)',
-    //     report: null
-    //   },
-
-
   const handleGetOfficeById = async (officeId) => {
     const response = await getOffice(officeId);
     return response?.data?.data;
   }
-
   const handleGetPackageById = async () => {
-    // const response = await getPackageById(order?.id);
-    // setPackageInfo(response?.data);
-    // if (response?.data?.fromOfficeId && response?.data?.toOfficeId) {
     const from = await handleGetOfficeById(order?.fromOfficeId);
     setFromOffice(from);
     const to = await handleGetOfficeById(order?.toOfficeId);
     setToOffice(to);
-    // }
   }
 
   useEffect(() => {
     handleGetPackageById();
   }, [order])
 
-  const [isReady, setIsReady] = useState(false);
-  const blobUrl = useRef(null);
-
-  // useEffect(() => {
-  //   fetch(order?.image)
-  //     .then((response) => response.blob())
-  //     .then((blob) => {
-  //       blobUrl.current = URL.createObjectURL(blob);
-  //       setIsReady(true);
-  //     });
-
-  //   return () => {
-  //     URL.revokeObjectURL(blobUrl.current);
-  //   };
-  // }, []);
-
-  console.log(type);
-
-
-  // {
-    //     id: 9,
-    //     busId: 2,
-    //     fromOfficeId: 4,
-    //     toOfficeId: 1,
-    //     stationId: 1,
-    //     quantity: 1,
-    //     totalWeight: 1,
-    //     totalPrice: 10000,
-    //     image: ' ... (length: 451360)',
-    //     note: ' ... (length: 4)',
-    //     status: -1,
-    //     createTime: ' ... (length: 10)',
-    //     report: null
-    //   },
 
   return (
     <div className={`grid grid-cols-5 bg-[#ededed] p-2 rounded-md my-2 ${type === "process" ? (
@@ -89,11 +34,10 @@ export default function OrderCard({ order, type }) {
     )}`}>
       <div className="col-span-1 flex items-center justify-center bg-white rounded-md">
         <img src={`data:image/png;base64, ` + order?.image || orderImage} alt="" />
-        {/* {isReady && <img src={blobUrl.current} alt="blob" />} */}
       </div>
       <div className="col-span-3 px-3">
         <div className="font-semibold text-[#50a4b8] text-sm">
-          Mã đơn hàng: {order?.id}
+          Mã package: {order?.id}
         </div>
         <div className="grid grid-cols-2">
           <div className="font-semibold text-sm col-span-1">
@@ -121,16 +65,39 @@ export default function OrderCard({ order, type }) {
             {toOffice?.name}
           </span>
         </div>
+        <div className="font-semibold text-sm">
+          Ngày tạo đơn:{" "}
+          <span className="text-sm font-normal truncate">
+            {order?.createTime}
+          </span>
+        </div>
       </div>
       <div className="col-span-1 grid grid-rows-3 gap-2">
         <div className="row-span-1 flex items-start gap-2 text-base hover:cursor-pointer text-blue-500 hover:underline">
           <Link to={`/order/${order?.id}`}>Xem chi tiết</Link>
         </div>
-        <div className="row-span-1 flex justify-center items-center text-base text-blue-500 border-2 border-blue-500 w-full rounded-full h-10">
-          {order?.status === 1 && "Đã xử lý"}
-          {order?.status === 0 && "Chưa xử lý"}
-          {order?.status === -1 && "Đã hủy"}
-        </div>
+
+        {
+          order?.status === 1 ? (
+            <div className="row-span-1 flex justify-center font-bold items-center text-base text-green-500 bg-green-200 border-2  w-full rounded-full h-10">
+              Đã xử lý
+            </div>
+          ) : (
+            <>
+              {
+                order?.status === 0 ? (
+                  <div className="row-span-1 flex justify-center font-bold items-center text-base text-gray-500 bg-gray-200 border-2  w-full rounded-full h-10">
+                    Đang xử lí
+                  </div>
+                ) : (
+                  <div className="row-span-1 flex justify-center font-bold items-center text-base text-red-500 bg-red-200 border-2  w-full rounded-full h-10">
+                    Đã hủy
+                  </div>
+                )
+              }
+            </>
+          )
+        }
         <div className="row-span-1 text-lg font-semibold text-red-500 flex items-end">
           Tổng tiền: {formatPrice(order?.totalPrice || 0)}
         </div>

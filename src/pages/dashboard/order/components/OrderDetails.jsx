@@ -246,7 +246,7 @@ export default function OrderDetails() {
           </div>
           <div className="col-span-2 space-y-3 relative">
             <div className="font-semibold text-lg  text-[#50a4b8]">
-              Mã đơn hàng: {packageData?.id}
+              Mã package: {packageData?.id}
             </div>
             <div className="font-semibold text-sm col-span-1 truncate">
               Khối lượng:{" "}
@@ -335,7 +335,7 @@ export default function OrderDetails() {
           </div>
           <div className="col-span-2 space-y-3 relative">
             <div className="font-semibold text-lg  text-[#50a4b8]">
-              Mã đơn hàng: {orderDetails?.id}
+              Mã order: {orderDetails?.id}
             </div>
             <div className="font-semibold text-sm col-span-1 truncate">
               Khối lượng:{" "}

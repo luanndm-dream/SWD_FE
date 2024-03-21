@@ -45,7 +45,9 @@ const formSchema = z.object({
 const imageMimeType = /image\/(png|jpg|jpeg)/i;
 
 
-export default function CreateOfficeForm() {
+export default function CreateOfficeForm({
+    handleSetTabs
+}) {
     const [file, setFile] = useState(null)
     const [imageError, setImageError] = useState()
     const [loading, setLoading] = useState(false)
@@ -68,6 +70,7 @@ export default function CreateOfficeForm() {
             toast.success("Tạo văn phòng thành công")
             dispatch(reRender())
             navigate("/office")
+            handleSetTabs(0)
         } else {
             toast.error("Lỗi tạo văn phòng")
         }
