@@ -8,6 +8,7 @@ import OrderIcon from "@/assets/icon/order-management.svg"
 import BusIcon from "@/assets/icon/route management.svg"
 import StaffIcon from "@/assets/icon/staff.svg"
 import SettingIcon from "@/assets/icon/settings.svg"
+import MapIcon  from "@/assets/icon/map.svg"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { cn } from "@/lib/utils"
 
@@ -37,16 +38,15 @@ const menuItems = [
     icon: <img src={StaffIcon} alt="icon" className="h-10 w-10" />,
     link: "/dashboard/staff"
   },
+  // {
+  //   title: "Bản đồ",
+  //   icon: <img src={MapIcon} alt="icon" className="h-10 w-10" />,
+  //   link: "/map" 
+  // },
   {
     title: "Cài đặt",
     icon: <img src={SettingIcon} alt="icon" className="h-10 w-10" />,
     options: [
-      {
-        title: "Dark Mode",
-        // action: toggleDarkMode,
-        icon: <MoonIcon size={16} />,
-        key: "darkMode"
-      },
       {
         title: "Logout",
         // action: handleLogout,

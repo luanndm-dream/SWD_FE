@@ -20,6 +20,7 @@ import ManageStaff from "./pages/dashboard/staff/page.jsx"
 import ManageSetting from "./pages/setting/page.jsx"
 import CreateStaff from './pages/dashboard/staff/createStaff';
 import UpdateStaff from "./pages/dashboard/staff/updateStaff.jsx"
+import Map from "./pages/map/index.jsx"
 
 
 const router = createBrowserRouter([
@@ -79,6 +80,10 @@ const router = createBrowserRouter([
         element: <UpdateStaff />
       }
     ]
+  },
+  {
+    path: "/map",
+    element: <Map />
   },
   {
     path:"/setting",

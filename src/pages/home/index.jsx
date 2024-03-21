@@ -19,13 +19,13 @@ export default function HomePage() {
 
   const [value, setValue] = useState([]);
   const [transaction, setTransaction] = useState([]);
-  const [dataOffice, setDataOffice] = useState([]);
+
 
 
   useEffect(() => {
     fetchData();
-    fetchRecentTransaction();
     fetchOfficeData();
+    fetchRecentTransaction();
   }, []);
 
   //call api for new user/month total order/month total office
@@ -60,8 +60,8 @@ export default function HomePage() {
     }
   };
 
+  const [dataOffice, setDataOffice] = useState([]);
   //call api get lat long Office
-  const [officeMarker, setOfficeMarker] = useState(null);
   const fetchOfficeData = async () => {
     try {
       const response = await axiosClient.get(`Api/V1/Office`, {
@@ -83,9 +83,16 @@ export default function HomePage() {
     height: "100%",
     latitude: 10.8231,
     longitude: 106.6297,
-    zoom: 9,
+    zoom: 10,
   });
 
+  // function handleDbClick(e) {
+  //   const [longitude, latitude] = e.lngLat;
+  //   setNewPlace({
+  //     lat: e?.lngLat?.lat,
+  //     lng: e?.lngLat?.lng,
+  //   });
+  // }
   return (
     <div className='h-screen w-full' style={{ display: 'flex', flexDirection: 'column' }}>
       <Header />
@@ -166,7 +173,37 @@ export default function HomePage() {
               backgroundColor={colors.primary[400]}
               style={{ position: 'relative' }}
             >
+              <ReactMapGL
+                {...viewPort}
+                mapboxAccessToken="pk.eyJ1IjoidGhhbmhwaHUwMyIsImEiOiJjbHUxb2poamgwbTdrMmtwZDVodmo0YzE5In0.aC9YV3Q4Qw7R2vom0JDR6g"
+                width="100%"
+                height="100%"
+                transitionDuration='200'
+                mapStyle="mapbox://styles/mapbox/streets-v11"
+                onViewportChange={viewport => setViewPort(viewport)}
+                
+              >
+                {dataOffice.map((office, index) => (
+                  <Marker
+                    key={index}
+                    latitude={office.lat}
+                    longitude={office.lng}
+                    offsetLeft={-3.5 * viewPort.zoom}
+                    offsetTop={-7 * viewPort.zoom}
+                  >
+                    {/* <Room 
+                      style={{
+                        fontSize: 7*viewPort.zoom,
+                        color: "tomato",
+                        cursor: "pointer"
+                      }}
+                    /> */}
 
+                    {/* Custom Marker */}
+                    <div style={{ color: 'red', fontSize: '20px' }}>📍</div>
+                  </Marker>
+                ))}
+              </ReactMapGL>
             </Box>
             <Box
               gridColumn="span 4"
