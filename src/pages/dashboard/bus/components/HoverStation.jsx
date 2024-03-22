@@ -29,7 +29,7 @@ export default function HoverStation({
 
     return (
       <HoverCard>
-        <HoverCardTrigger className="cursor-pointer underline" onClick={() => (navigate("/dashboard/office/"+station?.officeId))}>{station?.id}</HoverCardTrigger>
+        <HoverCardTrigger className="cursor-pointer underline" onClick={() => (navigate("/dashboard/office/"+station?.officeId))}>{station?.name}</HoverCardTrigger>
         <HoverCardContent>
           <div className="text-lg font-bold">
             {station?.name}

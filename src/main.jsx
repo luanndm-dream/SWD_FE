@@ -73,10 +73,10 @@ const router = createBrowserRouter([
       }
     ]
   },
-  {
-    path: "/map",
-    element: <Map />
-  },
+  // {
+  //   path: "/map",
+  //   element: <Map />
+  // },
   {
     path: "/",
     element: <LoginPage />,

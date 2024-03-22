@@ -58,11 +58,11 @@ const menuItems = [
     ),
     link: "/dashboard/staff"
   },
-  {
-    title: "Bản đồ",
-    icon: <img src={MapIcon} alt="icon" className="h-10 w-10" />,
-    link: "/map" 
-  },
+  // {
+  //   title: "Bản đồ",
+  //   icon: <img src={MapIcon} alt="icon" className="h-10 w-10" />,
+  //   link: "/map" 
+  // },
   {
     title: "Cài đặt",
     icon: <img src={SettingIcon} alt="icon" className="h-10 w-10" />,
