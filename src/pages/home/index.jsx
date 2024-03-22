@@ -191,15 +191,6 @@ export default function HomePage() {
                     offsetLeft={-3.5 * viewPort.zoom}
                     offsetTop={-7 * viewPort.zoom}
                   >
-                    {/* <Room 
-                      style={{
-                        fontSize: 7*viewPort.zoom,
-                        color: "tomato",
-                        cursor: "pointer"
-                      }}
-                    /> */}
-
-                    {/* Custom Marker */}
                     <div style={{ color: 'red', fontSize: '20px' }}>📍</div>
                   </Marker>
                 ))}
