@@ -16,54 +16,69 @@ import OrderDetails from "./pages/dashboard/order/components/OrderDetails.jsx"
 import OfficeDetails from "./pages/dashboard/office/office-details/page.jsx"
 import 'react-toastify/dist/ReactToastify.css';
 import UpdateOffice from "./pages/dashboard/office/components/update-office.jsx"
-import StaffPage from "./pages/dashboard/staff/page.jsx"
+import ManageStaff from "./pages/dashboard/staff/page.jsx"
+import CreateStaff from './pages/dashboard/staff/createStaff';
+import UpdateStaff from "./pages/dashboard/staff/updateStaff.jsx"
+import Map from "./pages/map/index.jsx"
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/home",
     element: <HomePage />,
     errorElement: <ErrorPage />
   },
   {
-    path: "/",
+    path: "/dashboard",
     element: <DashboardLayout />,
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "/office",
+        path: "/dashboard/office",
         element: <OfficeManagementPage />,
       },
       {
-        path: "/office/:id",
+        path: "/dashboard/office/:id",
         element: <OfficeDetails />
       },
       {
-        path: "/office/update/:id",
+        path: "/dashboard/office/update/:id",
         element: <UpdateOffice />
       },
       {
-        path: "/bus",
+        path: "/dashboard/bus",
         element: <BusManagementPage />
       },
       {
-        path: "/bus/:id",
+        path: "/dashboard/bus/:id",
         element: <BusDetaisPage />
       },
       {
-        path: "/order",
+        path: "/dashboard/order",
         element: <OrderManagementPage />,
       },
       {
-        path: "/order/:id",
+        path: "/dashboard/order/:id",
         element: <OrderDetails />,
       },
       {
-        path: "/staff",
-        element: <StaffPage />
+        path: "/dashboard/staff",
+        element: <ManageStaff />
+      },
+      {
+        path: "/dashboard/createStaff",
+        element: <CreateStaff />
+      },
+      {
+        path: "/dashboard/updateStaff/:id",
+        element: <UpdateStaff />
       }
     ]
   },
   {
-    path: "/login",
+    path: "/map",
+    element: <Map />
+  },
+  {
+    path: "/",
     element: <LoginPage />,
     errorElement: <ErrorPage />
   }

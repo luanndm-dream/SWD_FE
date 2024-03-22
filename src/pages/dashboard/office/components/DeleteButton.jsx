@@ -26,7 +26,7 @@ export default function DeleteButton({ children, id }) {
             toast.error("Lỗi xóa Office")
         } else {
             toast.success("Xóa Office thành công")
-            navigate("/office")
+            navigate("/dashboard/office")
             dispatch(reRender())
         }
     }

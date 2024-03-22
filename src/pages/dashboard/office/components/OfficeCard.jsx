@@ -35,24 +35,24 @@ export default function OfficeCard({ office }) {
             </div>
             <div className="flex-1 flex flex-col ml-10 gap-4">
                 <span className="font-bold text-[#4BA2B6]">{office?.name}</span>
-                <span className="flex gap-2 items-center">
+                {/* <span className="flex gap-2 items-center">
                     <img src={CheckList} alt="icon" className="h-10 w-10" />
                     <span>Có {office?.orderQuantity || 0} đơn hàng</span>
-                </span>
+                </span> */}
                 <div className="self-stretch flex gap-2">
                     <span className="flex gap-2 items-center">
                         <img src={Clock} alt="icon" className="h-10 w-10" />
                         {office?.operationTime}
                     </span>
-                    <span className="flex gap-2 items-center flex-1 flex justify-center">
+                    {/* <span className="flex gap-2 items-center flex-1 flex justify-center">
                         <img src={Money} alt="icon" className="h-10 w-10" />
                         {formatPrice(office?.totalRevenue || 0)}
-                    </span>
+                    </span> */}
                 </div>
             </div>
             <div>
                 <Link
-                    to={"/office/" + office?.id}
+                    to={"/dashboard/office/" + office?.id}
                     className="p-2 flex items-center gap-4 cursor-pointer"
                 >
                     <div>
@@ -62,7 +62,7 @@ export default function OfficeCard({ office }) {
                 </Link>
                 <div className="p-2 flex items-center gap-4 cursor-pointer">
                     <Link
-                        to={`/office/update/${office?.id}`}
+                        to={`/dashboard/office/update/${office?.id}`}
                         className="flex items-center gap-4"
                     >
                         <div>

@@ -30,7 +30,7 @@ export default function BusRoute({
                 {route?.operateTime}
             </span>
         </div>
-        <Link to={"/bus/"+route?.id} className='p-4 flex items-center gap-4 cursor-pointer'>
+        <Link to={"/dashboard/bus/"+route?.id} className='p-4 flex items-center gap-4 cursor-pointer'>
             <div>
                 <img src={List} alt="icon" className="h-10 w-10" />
             </div>

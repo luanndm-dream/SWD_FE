@@ -74,7 +74,7 @@ export default function OrderCard({ order, type }) {
       </div>
       <div className="col-span-1 grid grid-rows-3 gap-2">
         <div className="row-span-1 flex items-start gap-2 text-base hover:cursor-pointer text-blue-500 hover:underline">
-          <Link to={`/order/${order?.id}`}>Xem chi tiết</Link>
+          <Link to={`/dashboard/order/${order?.id}`}>Xem chi tiết</Link>
         </div>
 
         {

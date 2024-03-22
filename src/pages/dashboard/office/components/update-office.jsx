@@ -98,7 +98,7 @@ export default function UpdateOffice() {
       toast.error("Cập nhật thất bại")
     } else {
       toast.success("Cập nhật thành công")
-      navigate("/office")
+      navigate("/dashboard/office")
     }
     setLoading(false)
   }

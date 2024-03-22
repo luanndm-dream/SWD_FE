@@ -69,7 +69,7 @@ export default function CreateOfficeForm({
         if (response.data?.isSuccess) {
             toast.success("Tạo văn phòng thành công")
             dispatch(reRender())
-            navigate("/office")
+            navigate("/dashboard/office")
             handleSetTabs(0)
         } else {
             toast.error("Lỗi tạo văn phòng")

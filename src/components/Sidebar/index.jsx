@@ -1,5 +1,5 @@
 import { cx } from "class-variance-authority"
-import { Menu, XIcon } from "lucide-react"
+import { Menu, XIcon, LogOutIcon } from "lucide-react"
 import { useState } from "react"
 import { CSSTransition } from "react-transition-group"
 import HomeIcon from "@/assets/icon/home.svg"
@@ -8,7 +8,8 @@ import OrderIcon from "@/assets/icon/order-management.svg"
 import BusIcon from "@/assets/icon/route management.svg"
 import StaffIcon from "@/assets/icon/staff.svg"
 import SettingIcon from "@/assets/icon/settings.svg"
-import { Link, useLocation } from "react-router-dom"
+import MapIcon  from "@/assets/icon/map.svg"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { cn } from "@/lib/utils"
 
 const menuItems = [
@@ -19,7 +20,7 @@ const menuItems = [
         <img src={HomeIcon} alt="icon" className="h-10 w-10" />
       </div>
     ),
-    link: "/"
+    link: "/home"
   },
   {
     title: "Quản lí Office",
@@ -28,7 +29,7 @@ const menuItems = [
         <img src={OfficeIcon} alt="icon" className="h-10 w-10" />
       </div>
     ),
-    link: "/office"
+    link: "/dashboard/office"
   },
   {
     title: "Quản lí tuyến xe",
@@ -37,7 +38,7 @@ const menuItems = [
         <img src={BusIcon} alt="icon" className="h-10 w-10" />
       </div>
     ),
-    link: "/bus"
+    link: "/dashboard/bus"
   },
   {
     title: "Quản lí đơn hàng",
@@ -46,7 +47,7 @@ const menuItems = [
         <img src={OrderIcon} alt="icon" className="h-10 w-10" />
       </div>
     ),
-    link: "/order"
+    link: "/dashboard/order"
   },
   {
     title: "Quản lí nhân viên",
@@ -55,55 +56,117 @@ const menuItems = [
         <img src={StaffIcon} alt="icon" className="h-10 w-10" />
       </div>
     ),
-    link: "/staff"
+    link: "/dashboard/staff"
+  },
+  {
+    title: "Bản đồ",
+    icon: <img src={MapIcon} alt="icon" className="h-10 w-10" />,
+    link: "/map" 
   },
   {
     title: "Cài đặt",
-    icon: (
-      <div>
-        <img src={SettingIcon} alt="icon" className="h-10 w-10" />
-      </div>
-    ),
-    link: "/setting"
+    icon: <img src={SettingIcon} alt="icon" className="h-10 w-10" />,
+    options: [
+      {
+        title: "Logout",
+        // action: handleLogout,
+        icon: <LogOutIcon size={16} />,
+        key: "logout"
+      }
+    ]
   }
 ]
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true)
-  const location = useLocation()
+  const [showSettings, setShowSettings] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const toggleSettings = () => {
+    setShowSettings(!showSettings);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/")
+  }
   return (
     <div className={cx("sidebar", { "sidebar-closed": !isOpen })}>
-      <button
-        className={"flex items-center ml-5"}
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        {!isOpen ? <Menu size={24} /> : <XIcon size={24} />}
-      </button>
-      <ul className="space-y-2 mt-4">
-        {menuItems.map(item => (
-          <Link to={item.link} key={item.title}>
-            <div
-              className={cn(
-                "flex gap-4 items-center cursor-pointer hover:bg-[#B8F2FF] rounded-xl p-4",
-                location.pathname.toLowerCase() == item.link.toLowerCase() &&
+    <button
+      className={"flex items-center ml-5"}
+      onClick={() => setIsOpen(!isOpen)}
+    >
+      {!isOpen ? <Menu size={24} /> : <XIcon size={24} />}
+    </button>
+    <ul className="space-y-2 mt-4">
+      {menuItems.map(item => (
+        <div key={item.title}>
+          {item.options ? (
+            <>
+              <div
+                className={cn(
+                  "flex gap-4 items-center cursor-pointer hover:bg-[#B8F2FF] rounded-xl p-4",
+                  location && location.pathname.toLowerCase() === (item.link || "").toLowerCase() &&
                   "bg-[#B8F2FF]"
-              )}
-            >
-              {item.icon}
+                )}
+                onClick={toggleSettings}
+              >
+                {item.icon}
+                <CSSTransition
+                  in={isOpen}
+                  timeout={200}
+                  classNames={"fade"}
+                  unmountOnExit
+                >
+                  <span>{item.title}</span>
+                </CSSTransition>
+              </div>
               <CSSTransition
-                in={isOpen}
+                in={showSettings} // Show dropdown only when state is true
                 timeout={200}
                 classNames={"fade"}
                 unmountOnExit
               >
-                <span>{item.title}</span>
+                <div className="pl-8"> {/* Indent dropdown content */}
+                  {item.options.map(option => (
+                    <div
+                      key={option.key}
+                      className="flex items-center cursor-pointer hover:bg-[#B8F2FF] rounded-xl p-2"
+                      onClick={option.action || handleLogout}
+                    >
+                      {option.icon}
+                      <span className="ml-2">{option.title}</span>
+                    </div>
+                  ))}
+                </div>
               </CSSTransition>
-            </div>
-          </Link>
-        ))}
-      </ul>
-    </div>
-  )
-}
+            </>
+          ) : ( // If menu item doesn't have options, render as usual
+            <Link to={item.link}>
+              <div
+                className={cn(
+                  "flex gap-4 items-center cursor-pointer hover:bg-[#B8F2FF] rounded-xl p-4",
+                  location.pathname.toLowerCase() == item.link.toLowerCase() &&
+                  "bg-[#B8F2FF]"
+                )}
+              >
+                {item.icon}
+                <CSSTransition
+                  in={isOpen}
+                  timeout={200}
+                  classNames={"fade"}
+                  unmountOnExit
+                >
+                  <span>{item.title}</span>
+                </CSSTransition>
+              </div>
+            </Link>
+          )}
+        </div>
+      ))}
+    </ul>
+  </div>
+)}
+
 
 export default Sidebar

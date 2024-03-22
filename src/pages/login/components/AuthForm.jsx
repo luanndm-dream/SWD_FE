@@ -70,7 +70,7 @@ export function UserAuthForm({ className, ...props }) {
           position: "top-left"
         })
         setTimeout(() => {
-          navigate("/")
+          navigate("/home")
         }, 1000)
       }
     })
