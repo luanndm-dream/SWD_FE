@@ -1,10 +1,10 @@
-import orderImage from "@/assets/images/orderImage.png"
-import { formatPrice } from "@/lib/formatPrice"
-import { useEffect, useRef, useState } from "react"
-import { Link } from "react-router-dom"
-import { getPackageById } from "../../../../lib/api/package-api"
-import { getOffice } from "../../../../lib/api/office-api"
-import { format } from "date-fns"
+import orderImage from "@/assets/images/orderImage.png";
+import { formatPrice } from "@/lib/formatPrice";
+import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import { getPackageById } from "../../../../lib/api/package-api";
+import { getOffice } from "../../../../lib/api/office-api";
+import { format } from "date-fns";
 
 export default function OrderCard({ order, type }) {
   const [fromOffice, setFromOffice] = useState({});
@@ -13,27 +13,31 @@ export default function OrderCard({ order, type }) {
   const handleGetOfficeById = async (officeId) => {
     const response = await getOffice(officeId);
     return response?.data?.data;
-  }
+  };
   const handleGetPackageById = async () => {
     const from = await handleGetOfficeById(order?.fromOfficeId);
     setFromOffice(from);
     const to = await handleGetOfficeById(order?.toOfficeId);
     setToOffice(to);
-  }
+  };
 
   useEffect(() => {
     handleGetPackageById();
-  }, [order])
-
+  }, [order]);
 
   return (
-    <div className={`grid grid-cols-5 bg-[#ededed] p-2 rounded-md my-2 ${type === "process" ? (
-      order?.status === 0 && "hidden"
-    ) : (
-      order?.status !== 0 && "hidden"
-    )}`}>
+    <div
+      className={`grid grid-cols-5 bg-[#ededed] p-2 rounded-md my-2 ${
+        type === "process"
+          ? order?.status === 0 && "hidden"
+          : order?.status !== 0 && "hidden"
+      }`}
+    >
       <div className="col-span-1 flex items-center justify-center bg-white rounded-md">
-        <img src={`data:image/png;base64, ` + order?.image || orderImage} alt="" />
+        <img
+          src={`data:image/png;base64, ` + order?.image || orderImage}
+          alt=""
+        />
       </div>
       <div className="col-span-3 px-3">
         <div className="font-semibold text-[#50a4b8] text-sm">
@@ -51,7 +55,9 @@ export default function OrderCard({ order, type }) {
         </div>
         <div className="font-semibold text-sm">
           Địa chỉ:{" "}
-          <span className="text-sm font-normal truncate">{toOffice?.address}</span>
+          <span className="text-sm font-normal truncate">
+            {toOffice?.address}
+          </span>
         </div>
         <div className="font-semibold text-sm">
           Từ trạm:{" "}
@@ -61,9 +67,7 @@ export default function OrderCard({ order, type }) {
         </div>
         <div className="font-semibold text-sm">
           Đến Trạm:{" "}
-          <span className="text-sm font-normal truncate">
-            {toOffice?.name}
-          </span>
+          <span className="text-sm font-normal truncate">{toOffice?.name}</span>
         </div>
         <div className="font-semibold text-sm">
           Ngày tạo đơn:{" "}
@@ -77,35 +81,48 @@ export default function OrderCard({ order, type }) {
           <Link to={`/dashboard/order/${order?.id}`}>Xem chi tiết</Link>
         </div>
 
-        {
-          order?.status === 1 ? (
-            <div className="row-span-1 flex justify-center font-bold items-center text-base text-green-500 bg-green-200 border-2  w-full rounded-full h-10">
-              Đã xử lý
-            </div>
-          ) : (
-            <>
-              {
-                order?.status === 0 ? (
-                  <div className="row-span-1 flex justify-center font-bold items-center text-base text-gray-500 bg-gray-200 border-2  w-full rounded-full h-10">
-                    Đang xử lí
+        {order?.status === 1 ? (
+          <div className="row-span-1 flex justify-center font-bold items-center text-base text-green-500 bg-green-200 border-2  w-full rounded-full h-10">
+            Đã xử lý
+          </div>
+        ) : (
+          <>
+            {order?.status === 0 ? (
+              <div className="row-span-1 flex justify-center font-bold items-center text-base text-gray-500 bg-gray-200 border-2  w-full rounded-full h-10">
+                Đang xử lí
+              </div>
+            ) : (
+              <>
+                {order?.status === 4 ? (
+                  <div className="row-span-1 flex justify-center font-bold items-center text-base text-red-500 bg-red-200 border-2  w-full rounded-full h-10">
+                    Đã xóa
                   </div>
                 ) : (
-                  <div className="row-span-1 flex justify-center font-bold items-center text-base text-red-500 bg-red-200 border-2  w-full rounded-full h-10">
-                    Đã hủy
-                  </div>
-                )
-              }
-            </>
-          )
-        }
+                  <>
+                    {order?.status === 5 ? (
+                      <div className="row-span-1 flex justify-center font-bold items-center text-base text-blue-500 bg-blue-200 border-2  w-full rounded-full h-10">
+                        Đã tạo đơn
+                      </div>
+                    ) : (
+                      <>
+                        <div className="row-span-1 flex justify-center font-bold items-center text-base text-red-500 bg-red-200 border-2  w-full rounded-full h-10">
+                          Đã hủy
+                        </div>
+                      </>
+                    )}
+                  </>
+                )}
+              </>
+            )}
+          </>
+        )}
         <div className="row-span-1 text-lg font-semibold text-red-500 flex items-end">
           Tổng tiền: {formatPrice(order?.totalPrice || 0)}
         </div>
       </div>
     </div>
-  )
+  );
 }
-
 
 // order:
 // {

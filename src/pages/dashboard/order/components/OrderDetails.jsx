@@ -222,7 +222,7 @@ export default function OrderDetails() {
               <div className="flex justify-center  gap-2 text-sm font-bold px-20">
                 <div className="">
                   {
-                    packageData?.status === 1 && "✅" || packageData?.status === 0 && "⏳" || packageData?.status === -1 && "✅"
+                    packageData?.status === 1 && "✅" || packageData?.status === 0 && "⏳" || packageData?.status === -1 && "✅" || "⏳"
                   }
                 </div>
                 <span className="flex-1">Proccessing</span>
@@ -233,12 +233,12 @@ export default function OrderDetails() {
               <div className="flex justify-center gap-2 text-sm font-bold px-20">
                 <div className="">
                   {
-                    packageData?.status === 1 && "✅" || packageData?.status === 0 && "⏳" || packageData?.status === -1 && "❌"
+                    packageData?.status === 1 && "✅" || packageData?.status === 0 && "⏳" || packageData?.status === -1 && "❌" || "⏳"
                   }
                 </div>
                 <span className="flex-1">
                   {
-                    packageData?.status === 1 && "Done" || packageData?.status === 0 && "Waiting" || packageData?.status === -1 && "Cancel"
+                    packageData?.status === 1 && "Done" || packageData?.status === 0 && "Waiting" || packageData?.status === -1 && "Cancel" || "Waiting"
                   }
                 </span>
               </div>
@@ -295,11 +295,41 @@ export default function OrderDetails() {
               <span className="text-sm font-normal truncate">{bus?.name}</span>
             </div>
             <div className="absolute bottom-0 right-0 flex flex-col items-center justify-center gap-3">
-              <div className="flex justify-center items-center text-base text-blue-500 border-2 border-blue-500 rounded-full px-4 py-2">
-                {packageData?.status === 1 && "Đã xử lý"}
-                {packageData?.status === 0 && "Chưa xử lý"}
-                {packageData?.status === -1 && "Đã hủy"}
+            {packageData?.status === 1 ? (
+          <div className="row-span-1 flex justify-center font-bold items-center text-base text-green-500 bg-green-200 border-2  w-full rounded-full h-10">
+            Đã xử lý
+          </div>
+        ) : (
+          <>
+            {packageData?.status === 0 ? (
+              <div className="row-span-1 flex justify-center font-bold items-center text-base text-gray-500 bg-gray-200 border-2  w-full rounded-full h-10">
+                Đang xử lí
               </div>
+            ) : (
+              <>
+                {packageData?.status === 4 ? (
+                  <div className="row-span-1 flex justify-center font-bold items-center text-base text-red-500 bg-red-200 border-2  w-full rounded-full h-10">
+                    Đã xóa
+                  </div>
+                ) : (
+                  <>
+                    {packageData?.status === 5 ? (
+                      <div className="row-span-1 flex justify-center font-bold items-center text-base text-blue-500 bg-blue-200 border-2  w-full rounded-full h-10">
+                        Đã tạo đơn
+                      </div>
+                    ) : (
+                      <>
+                        <div className="row-span-1 flex justify-center font-bold items-center text-base text-red-500 bg-red-200 border-2  w-full rounded-full h-10">
+                          Đã hủy
+                        </div>
+                      </>
+                    )}
+                  </>
+                )}
+              </>
+            )}
+          </>
+        )}
               <div className="row-span-1 text-lg font-semibold text-red-500">
                 Tổng tiền: {formatPrice(packageData?.totalPrice || 0)}
               </div>
